@@ -25,19 +25,26 @@ func push_back(n *Node, v int) *Node {
 }
 
 func reverse(n *Node) *Node {
-	var nPrev *Node
-	for n != nil {
-		next := n.next
-		n.next = nPrev
-		nPrev = n
-		n = next
+	var prev *Node
+	current := n
+	var next *Node
+
+	for current != nil {
+		// change link
+		next = current.next
+		current.next = prev
+
+		// move ahead by one link
+		prev = current
+		current = next
 	}
-	return nPrev
+	head := prev
+	return head
 }
 
 func print(n *Node) {
 	for ; n != nil; n = n.next {
-		fmt.Print(n.val)
+		fmt.Printf("%p %v\n", n, *n)
 	}
 	fmt.Print("\n")
 }
@@ -47,12 +54,33 @@ func main() {
 	push_back(list, 2)
 	push_back(list, 3)
 	push_back(list, 4)
+	push_back(list, 5)
+
 	print(list)
-	print(reverse(list))
+	list = reverse(list)
+	print(list)
+	list = reverse(list)
+	print(list)
+
 }
 
 /*
 $ go run list.go
-1234
-4321
+0xc00000e1e0 {1 0xc00000e1f0}
+0xc00000e1f0 {2 0xc00000e200}
+0xc00000e200 {3 0xc00000e210}
+0xc00000e210 {4 0xc00000e220}
+0xc00000e220 {5 <nil>}
+
+0xc00000e220 {5 0xc00000e210}
+0xc00000e210 {4 0xc00000e200}
+0xc00000e200 {3 0xc00000e1f0}
+0xc00000e1f0 {2 0xc00000e1e0}
+0xc00000e1e0 {1 <nil>}
+
+0xc00000e1e0 {1 0xc00000e1f0}
+0xc00000e1f0 {2 0xc00000e200}
+0xc00000e200 {3 0xc00000e210}
+0xc00000e210 {4 0xc00000e220}
+0xc00000e220 {5 <nil>}
 */
