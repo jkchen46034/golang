@@ -11,26 +11,11 @@ func print(name []string, score []int) {
 	}
 }
 
-func SortByScore(name []string, score []int) {
+func Sort(name []string, score []int, comp_swap func(i, j int)) {
 	n := len(score)
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {
-			if score[j] > score[i] {
-				score[i], score[j] = score[j], score[i]
-				name[i], name[j] = name[j], name[i]
-			}
-		}
-	}
-}
-
-func SortByName(name []string, score []int) {
-	n := len(score)
-	for i := 0; i < n-1; i++ {
-		for j := i + 1; j < n; j++ {
-			if strings.ToLower(name[j]) < strings.ToLower(name[i]) {
-				score[i], score[j] = score[j], score[i]
-				name[i], name[j] = name[j], name[i]
-			}
+			comp_swap(i, j)
 		}
 	}
 }
@@ -39,33 +24,38 @@ func main() {
 	name := []string{"Jack", "Benny", "Alfred", "JK"}
 	score := []int{13, 12, 8, 12}
 
-	fmt.Println("Original:")
 	print(name, score)
 
-	fmt.Println("\nBy score:")
-	SortByScore(name, score)
+	// Sorted by score
+	Sort(name, score, func(i, j int) {
+		if score[j] > score[i] {
+			score[i], score[j] = score[j], score[i]
+			name[i], name[j] = name[j], name[i]
+		}
+
+	})
 	print(name, score)
 
-	fmt.Println("\nBy name:")
-	SortByName(name, score)
+	// Sorted by name
+	Sort(name, score, func(i, j int) {
+		if strings.ToLower(name[j]) < strings.ToLower(name[i]) {
+			score[i], score[j] = score[j], score[i]
+			name[i], name[j] = name[j], name[i]
+		}
+	})
 	print(name, score)
 }
 
 /*
 $ go run player1.go
-Original:
 Jack - 13
 Benny - 12
 Alfred - 8
 JK - 12
-
-By score:
 Jack - 13
 Benny - 12
 JK - 12
 Alfred - 8
-
-By name:
 Alfred - 8
 Benny - 12
 Jack - 13
