@@ -118,18 +118,20 @@ func main() {
 	numBalls := 30
 	q := NewQueue(numBalls).Fill()
 
+	var ball int
+	var tilt bool
+	var slice []int
+
 	for n := 0; ; n++ {
-		ball, _ := q.Pop()
+		ball, _ = q.Pop()
 		for i := 0; i < numStacks; i++ {
-			tilt, balltop, slice := stack[i].Drop(ball)
+			tilt, ball, slice = stack[i].Drop(ball)
 			if !tilt {
 				break
 			}
 			q.Push(slice...)
-			if i == numStacks-1 { // a pop from last stack will go into q
-				q.Push(balltop)
-			} else {
-				ball = balltop
+			if i == numStacks-1 {
+				q.Push(ball)
 			}
 		}
 		if (n+1)%(12*60) == 0 && q.IsCycle() {
