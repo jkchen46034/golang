@@ -16,26 +16,6 @@ func NewStack(max int) *stack {
 	return &stack{make([]int, 0), max}
 }
 
-func (s *stack) PushTilt(val int) (bool, int, []int) {
-	err := s.Push(val)
-	if err != nil {
-		panic(err)
-	}
-	if s.IsFull() == false {
-		return false, -1, nil
-	}
-
-	// stack is full, now tilt
-	ball, _ := s.Pop()
-	slice := make([]int, 0)
-	for !s.IsEmpty() {
-		val, _ := s.Pop()
-		slice = append(slice, val)
-	}
-
-	return true, ball, slice
-}
-
 func (s *stack) Push(val int) error {
 	if len(s.s) >= s.capacity {
 		return errors.New("stack.Push() overflow")
@@ -63,6 +43,26 @@ func (s *stack) IsFull() bool {
 	return len(s.s) == s.capacity
 }
 
+func (s *stack) PushTilt(val int) (bool, int, []int) {
+	err := s.Push(val)
+	if err != nil {
+		panic(err)
+	}
+	if s.IsFull() == false {
+		return false, -1, nil
+	}
+
+	// stack is full, now tilt
+	ball, _ := s.Pop()
+	slice := make([]int, 0)
+	for !s.IsEmpty() {
+		val, _ := s.Pop()
+		slice = append(slice, val)
+	}
+
+	return true, ball, slice
+}
+
 type queue struct {
 	q        []int
 	capacity int
@@ -70,12 +70,6 @@ type queue struct {
 
 func NewQueue(max int) *queue {
 	return &queue{make([]int, 0), max}
-}
-
-func (q *queue) Fill() {
-	for i := len(q.q); i < q.capacity; i++ {
-		q.Push(i)
-	}
 }
 
 func (q *queue) Push(vals ...int) error {
@@ -99,7 +93,13 @@ func (q *queue) Pop() (int, error) {
 	return val, nil
 }
 
-func (q *queue) IsTheSame() bool {
+func (q *queue) Fill() {
+	for i := len(q.q); i < q.capacity; i++ {
+		q.Push(i)
+	}
+}
+
+func (q *queue) IsCycle() bool {
 	if len(q.q) != q.capacity {
 		return false
 	}
@@ -113,13 +113,13 @@ func (q *queue) IsTheSame() bool {
 }
 
 func main() {
+	numBalls := 30
 
 	stack1M := NewStack(5)
 	stack5M := NewStack(12)
 	stack60M := NewStack(12)
-
-	numBalls := 30
 	q := NewQueue(numBalls)
+
 	q.Fill()
 
 	for n := 0; ; n++ {
@@ -137,7 +137,7 @@ func main() {
 				}
 			}
 		}
-		if (n+1)%(12*60) == 0 && q.IsTheSame() {
+		if (n+1)%(12*60) == 0 && q.IsCycle() {
 			fmt.Println(numBalls, "balls cycle after", (n+1)/(24*60), "days.")
 			break
 		}
