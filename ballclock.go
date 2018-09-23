@@ -1,32 +1,58 @@
-// This function implments a ballclock, brute force
+// This function implements a ballclock, brute force
 
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type stack struct {
-	s           []int
-	maxCapacity int
+	s        []int
+	capacity int
 }
 
 func NewStack(max int) *stack {
 	return &stack{make([]int, 0), max}
 }
 
-func (s *stack) PushNTilt(val int) (bool, int, []int) {
-	s.Push(val)
-	if !s.IsFull() {
-		return false, 0, nil
+func (s *stack) PushTilt(val int) (bool, int, []int) {
+	err := s.Push(val)
+	if err != nil {
+		panic(err)
+	}
+	if s.IsFull() == false {
+		return false, -1, nil
 	}
 
-	val1 := s.Pop()
+	// stack is full, now tilt
+	ball, _ := s.Pop()
 	slice := make([]int, 0)
 	for !s.IsEmpty() {
-		val = s.Pop()
+		val, _ := s.Pop()
 		slice = append(slice, val)
 	}
 
-	return true, val1, slice
+	return true, ball, slice
+}
+
+func (s *stack) Push(val int) error {
+	if len(s.s) >= s.capacity {
+		return errors.New("stack.Push() overflow")
+	}
+	s.s = append(s.s, val)
+	return nil
+}
+
+func (s *stack) Pop() (int, error) {
+	l := len(s.s)
+	if l == 0 {
+		return -1, errors.New("stack.Pop() underflow")
+	}
+
+	val := s.s[l-1]
+	s.s = s.s[:l-1]
+	return val, nil
 }
 
 func (s *stack) IsEmpty() bool {
@@ -34,64 +60,52 @@ func (s *stack) IsEmpty() bool {
 }
 
 func (s *stack) IsFull() bool {
-	return len(s.s) == s.maxCapacity
-}
-
-func (s *stack) Push(val int) {
-	s.s = append(s.s, val)
-}
-
-func (s *stack) Pop() int {
-	l := len(s.s)
-	if l == 0 {
-		panic("Exception occurred trying to pop an emtpy stack")
-	}
-
-	val := s.s[l-1]
-	s.s = s.s[:l-1]
-	return val
+	return len(s.s) == s.capacity
 }
 
 type queue struct {
-	stack
+	q        []int
+	capacity int
 }
 
 func NewQueue(max int) *queue {
-	s := NewStack(max)
-	for ball := 0; ball < s.maxCapacity; ball++ {
-		s.Push(ball)
+	return &queue{make([]int, 0), max}
+}
+
+func (q *queue) Fill() {
+	for i := len(q.q); i < q.capacity; i++ {
+		q.Push(i)
 	}
-	return &queue{*s}
 }
 
-func (q *queue) Push(v int) {
-	q.stack.Push(v)
+func (q *queue) Push(vals ...int) error {
+	if len(q.q)+len(vals) > q.capacity {
+		panic("cant push to queue.Push(), will be overflowed")
+	}
+	for _, val := range vals {
+		q.q = append(q.q, val)
+	}
+	return nil
 }
 
-func (q *queue) Pop() int {
-	l := len(q.stack.s)
+func (q *queue) Pop() (int, error) {
+	l := len(q.q)
 	if l == 0 {
-		panic("Exception occurred trying to pop an empty queue")
+		return -1, errors.New("queue.Pop() underflow")
 	}
 
-	res := q.stack.s[0]
-	q.stack.s = q.stack.s[1:l]
-	return res
-}
-
-func (q *queue) PushMany(slice []int) {
-	for _, v := range slice {
-		q.Push(v)
-	}
+	val := q.q[0]
+	q.q = q.q[1:l]
+	return val, nil
 }
 
 func (q *queue) IsTheSame() bool {
-	if len(q.stack.s) != q.stack.maxCapacity {
+	if len(q.q) != q.capacity {
 		return false
 	}
 
-	for ball := 0; ball < q.stack.maxCapacity; ball++ {
-		if q.stack.s[ball] != ball {
+	for i := 0; i < q.capacity; i++ {
+		if q.q[i] != i {
 			return false
 		}
 	}
@@ -105,24 +119,25 @@ func main() {
 	stack60M := NewStack(12)
 
 	numBalls := 30
-	qContainer := NewQueue(numBalls)
+	q := NewQueue(numBalls)
+	q.Fill()
 
 	for n := 0; ; n++ {
-		ball := qContainer.Pop()
-		tilt, ballOverflow, slice := stack1M.PushNTilt(ball)
+		ball, _ := q.Pop()
+		tilt, ball, slice := stack1M.PushTilt(ball)
 		if tilt {
-			qContainer.PushMany(slice)
-			tilt, ballOverflow, slice = stack5M.PushNTilt(ballOverflow)
+			q.Push(slice...)
+			tilt, ball, slice := stack5M.PushTilt(ball)
 			if tilt {
-				qContainer.PushMany(slice)
-				tilt, ballOverflow, slice := stack60M.PushNTilt(ballOverflow)
+				q.Push(slice...)
+				tilt, ball, slice := stack60M.PushTilt(ball)
 				if tilt {
-					qContainer.PushMany(slice)
-					qContainer.Push(ballOverflow)
+					q.Push(slice...)
+					q.Push(ball)
 				}
 			}
 		}
-		if (n+1)%(12*60) == 0 && qContainer.IsTheSame() {
+		if (n+1)%(12*60) == 0 && q.IsTheSame() {
 			fmt.Println(numBalls, "balls cycle after", (n+1)/(24*60), "days.")
 			break
 		}
@@ -130,6 +145,10 @@ func main() {
 }
 
 /*
-$go run ballclock.go
+$ time go run ballclock.go
 30 balls cycle after 15 days.
+
+real  0m0.692s
+user  0m0.568s
+sys   0m0.300s
 */
