@@ -7,24 +7,24 @@ import (
 	"fmt"
 )
 
-type stack struct {
+type Stack struct {
 	s        []int
 	capacity int
 }
 
-func NewStack(max int) *stack {
-	return &stack{make([]int, 0), max}
+func NewStack(max int) *Stack {
+	return &Stack{make([]int, 0), max}
 }
 
-func (s *stack) Push(val int) error {
-	if len(s.s) >= s.capacity {
+func (s *Stack) Push(vals ...int) error {
+	if len(s.s)+len(vals) > s.capacity {
 		return errors.New("stack.Push() overflow")
 	}
-	s.s = append(s.s, val)
+	s.s = append(s.s, vals...)
 	return nil
 }
 
-func (s *stack) Pop() (int, error) {
+func (s *Stack) Pop() (int, error) {
 	l := len(s.s)
 	if l == 0 {
 		return -1, errors.New("stack.Pop() underflow")
@@ -35,15 +35,15 @@ func (s *stack) Pop() (int, error) {
 	return val, nil
 }
 
-func (s *stack) IsEmpty() bool {
+func (s *Stack) IsEmpty() bool {
 	return len(s.s) == 0
 }
 
-func (s *stack) IsFull() bool {
+func (s *Stack) IsFull() bool {
 	return len(s.s) >= s.capacity
 }
 
-func (s *stack) PushTilt(val int) (bool, int, []int) {
+func (s *Stack) Drop(val int) (bool, int, []int) {
 	err := s.Push(val)
 	if err != nil {
 		panic(err)
@@ -63,26 +63,24 @@ func (s *stack) PushTilt(val int) (bool, int, []int) {
 	return true, ball, slice
 }
 
-type queue struct {
+type Queue struct {
 	q        []int
 	capacity int
 }
 
-func NewQueue(max int) *queue {
-	return &queue{make([]int, 0), max}
+func NewQueue(max int) *Queue {
+	return &Queue{make([]int, 0), max}
 }
 
-func (q *queue) Push(vals ...int) error {
+func (q *Queue) Push(vals ...int) error {
 	if len(q.q)+len(vals) > q.capacity {
 		panic("cant push to queue.Push(), will be overflowed")
 	}
-	for _, val := range vals {
-		q.q = append(q.q, val)
-	}
+	q.q = append(q.q, vals...)
 	return nil
 }
 
-func (q *queue) Pop() (int, error) {
+func (q *Queue) Pop() (int, error) {
 	l := len(q.q)
 	if l == 0 {
 		return -1, errors.New("queue.Pop() underflow")
@@ -93,13 +91,14 @@ func (q *queue) Pop() (int, error) {
 	return val, nil
 }
 
-func (q *queue) Fill() {
+func (q *Queue) Fill() *Queue {
 	for i := len(q.q); i < q.capacity; i++ {
 		q.Push(i)
 	}
+	return q
 }
 
-func (q *queue) IsCycle() bool {
+func (q *Queue) IsCycle() bool {
 	if len(q.q) != q.capacity {
 		return false
 	}
@@ -113,28 +112,24 @@ func (q *queue) IsCycle() bool {
 }
 
 func main() {
+	stack := []*Stack{NewStack(5), NewStack(12), NewStack(12)}
+	numStacks := len(stack)
+
 	numBalls := 30
-
-	stack1M := NewStack(5)
-	stack5M := NewStack(12)
-	stack60M := NewStack(12)
-	q := NewQueue(numBalls)
-
-	q.Fill()
+	q := NewQueue(numBalls).Fill()
 
 	for n := 0; ; n++ {
 		ball, _ := q.Pop()
-		tilt, ball, slice := stack1M.PushTilt(ball)
-		if tilt {
+		for i := 0; i < numStacks; i++ {
+			tilt, balltop, slice := stack[i].Drop(ball)
+			if !tilt {
+				break
+			}
 			q.Push(slice...)
-			tilt, ball, slice := stack5M.PushTilt(ball)
-			if tilt {
-				q.Push(slice...)
-				tilt, ball, slice := stack60M.PushTilt(ball)
-				if tilt {
-					q.Push(slice...)
-					q.Push(ball)
-				}
+			if i == numStacks-1 { // a pop from last stack will go into q
+				q.Push(balltop)
+			} else {
+				ball = balltop
 			}
 		}
 		if (n+1)%(12*60) == 0 && q.IsCycle() {
@@ -148,7 +143,7 @@ func main() {
 $ time go run ballclock.go
 30 balls cycle after 15 days.
 
-real  0m0.692s
-user  0m0.568s
-sys   0m0.300s
+real  0m0.600s
+user  0m0.524s
+sys   0m0.200s
 */
