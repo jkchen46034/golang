@@ -40,7 +40,7 @@ func (s *stack) IsEmpty() bool {
 }
 
 func (s *stack) IsFull() bool {
-	return len(s.s) == s.capacity
+	return len(s.s) >= s.capacity
 }
 
 func (s *stack) PushTilt(val int) (bool, int, []int) {
