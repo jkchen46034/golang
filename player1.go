@@ -11,22 +11,13 @@ func print(name []string, score []int) {
 	}
 }
 
-func swap(name []string, score []int, i int, j int) {
-	scorei := score[i]
-	score[i] = score[j]
-	score[j] = scorei
-
-	namei := name[i]
-	name[i] = name[j]
-	name[j] = namei
-}
-
 func SortByScore(name []string, score []int) {
 	n := len(score)
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {
 			if score[j] > score[i] {
-				swap(name, score, i, j)
+				score[i], score[j] = score[j], score[i]
+				name[i], name[j] = name[j], name[i]
 			}
 		}
 	}
@@ -37,19 +28,16 @@ func SortByName(name []string, score []int) {
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {
 			if strings.ToLower(name[j]) < strings.ToLower(name[i]) {
-				swap(name, score, i, j)
+				score[i], score[j] = score[j], score[i]
+				name[i], name[j] = name[j], name[i]
 			}
 		}
 	}
 }
 
 func main() {
-
-	name := make([]string, 0)
-	score := make([]int, 0)
-
-	name = append(name, "Jack", "Benny", "Alfred", "JK")
-	score = append(score, 13, 12, 8, 12)
+	name := []string{"Jack", "Benny", "Alfred", "JK"}
+	score := []int{13, 12, 8, 12}
 
 	fmt.Println("Original:")
 	print(name, score)
