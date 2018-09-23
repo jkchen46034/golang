@@ -9,19 +9,40 @@ type Node struct {
 	next *Node
 }
 
-func push_back(n *Node, v int) *Node {
+func push_back(n *Node, vals ...int) *Node {
+
+	// construct the link list for storing vals
+	var prev *Node
+	var headToNewList *Node
+	var current *Node
+	for _, val := range vals {
+		current = &Node{val, nil}
+		if prev == nil {
+			headToNewList = current
+		} else {
+			prev.next = current
+		}
+		prev = current
+	}
+
+	// nothing added
+	if headToNewList == nil {
+		return n
+	}
+
+	// nil root
 	if n == nil {
-		return &Node{v, nil}
+		return headToNewList
 	}
 
-	root := n
-	for n.next != nil {
-		n = n.next
+	// concatenate with the existing list pointed to by n
+	current = n
+	for current.next != nil {
+		current = current.next
 	}
+	current.next = headToNewList
 
-	n.next = &Node{v, nil}
-
-	return root
+	return n
 }
 
 func reverse(n *Node) *Node {
@@ -50,37 +71,37 @@ func print(n *Node) {
 }
 
 func main() {
-	list := push_back(nil, 1)
-	push_back(list, 2)
-	push_back(list, 3)
-	push_back(list, 4)
-	push_back(list, 5)
+
+	list := push_back(nil, 1, 2, 3)
+	list = push_back(list, 4, 5)
 
 	print(list)
-	list = reverse(list)
-	print(list)
+
 	list = reverse(list)
 	print(list)
 
+	list = reverse(list)
+	print(list)
 }
 
 /*
 $ go run list.go
-0xc00000e1e0 {1 0xc00000e1f0}
-0xc00000e1f0 {2 0xc00000e200}
-0xc00000e200 {3 0xc00000e210}
-0xc00000e210 {4 0xc00000e220}
-0xc00000e220 {5 <nil>}
+0xc00006e030 {1 0xc00006e040}
+0xc00006e040 {2 0xc00006e050}
+0xc00006e050 {3 0xc00006e060}
+0xc00006e060 {4 0xc00006e070}
+0xc00006e070 {5 <nil>}
 
-0xc00000e220 {5 0xc00000e210}
-0xc00000e210 {4 0xc00000e200}
-0xc00000e200 {3 0xc00000e1f0}
-0xc00000e1f0 {2 0xc00000e1e0}
-0xc00000e1e0 {1 <nil>}
+0xc00006e070 {5 0xc00006e060}
+0xc00006e060 {4 0xc00006e050}
+0xc00006e050 {3 0xc00006e040}
+0xc00006e040 {2 0xc00006e030}
+0xc00006e030 {1 <nil>}
 
-0xc00000e1e0 {1 0xc00000e1f0}
-0xc00000e1f0 {2 0xc00000e200}
-0xc00000e200 {3 0xc00000e210}
-0xc00000e210 {4 0xc00000e220}
-0xc00000e220 {5 <nil>}
+0xc00006e030 {1 0xc00006e040}
+0xc00006e040 {2 0xc00006e050}
+0xc00006e050 {3 0xc00006e060}
+0xc00006e060 {4 0xc00006e070}
+0xc00006e070 {5 <nil>}
+
 */
