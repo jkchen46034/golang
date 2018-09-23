@@ -36,9 +36,7 @@ func (emp *Employee) calculateBonus() float64 {
 }
 
 func (emp *Employee) introduce() {
-	for i := 0; i < 2; i++ {
-		fmt.Println("My name " + emp.name + ", and I am solid")
-	}
+	fmt.Println("My name " + emp.name + ", and I am solid")
 }
 
 func NewManager(name string, salary float64, bonus float64, office string) *Manager {
@@ -51,8 +49,8 @@ func (mgr *Manager) calculateBonus() float64 {
 }
 
 func (mgr *Manager) introduce() {
-	for i := 0; i < 3; i++ {
-		fmt.Println("Manager speaking here: My name "+mgr.name+", office is at", mgr.office)
+	for i := 0; i < 2; i++ {
+		fmt.Println("Manager speaking here: My name "+mgr.name+", office at", mgr.office)
 	}
 }
 
@@ -79,26 +77,28 @@ func totalBonus(emps []*Employee) float64 {
 }
 
 func main() {
-	empA := NewEmployee("John L", 80000.00, 0)
-	mgrB := NewManager("Steve J", 150000.00, 0, "corner office E")
+	empA := NewEmployee("John Jarvis", 80000.00, 0)
+	mgrB := NewManager("Steve Young", 150000.00, 0, "corner office E")
 
-	fmt.Println(empA)
-	fmt.Println(mgrB)
+	fmt.Println(*empA)
+	fmt.Println(*mgrB)
 
 	everyBodyIntroduce(empA, mgrB)
 
-	fmt.Printf("Total bonus is %f\n", calculateTotalBonus(empA, mgrB))
+	fmt.Printf("Total bonus is %d\n", int64(calculateTotalBonus(empA, mgrB)))
+
+	fmt.Println(*empA)
+	fmt.Println(*mgrB)
 }
 
 /*
 $ go run oop.go
-&{John L 80000 0}
-&{{Steve J 150000 0} corner office E}
-My name John L, and I am solid
-My name John L, and I am solid
-Manager speaking here: My name Steve J, office is at corner office E
-Manager speaking here: My name Steve J, office is at corner office E
-Manager speaking here: My name Steve J, office is at corner office E
-Total bonus is 24200.000000
-
+{John Jarvis 80000 0}
+{{Steve Young 150000 0} corner office E}
+My name John Jarvis, and I am solid
+Manager speaking here: My name Steve Young, office at corner office E
+Manager speaking here: My name Steve Young, office at corner office E
+Total bonus is 24200
+{John Jarvis 80000 1200}
+{{Steve Young 150000 23000} corner office E}
 */
