@@ -9,8 +9,7 @@ type Node struct {
 	next *Node
 }
 
-func push_back(n *Node, vals ...int) *Node {
-
+func push_back(head *Node, vals ...int) *Node {
 	// construct the link list for storing vals
 	var prev *Node
 	var headToNewList *Node
@@ -27,27 +26,27 @@ func push_back(n *Node, vals ...int) *Node {
 
 	// nothing added
 	if headToNewList == nil {
-		return n
+		return head
 	}
 
 	// nil root
-	if n == nil {
+	if head == nil {
 		return headToNewList
 	}
 
 	// concatenate with the existing list pointed to by n
-	current = n
+	current = head
 	for current.next != nil {
 		current = current.next
 	}
 	current.next = headToNewList
 
-	return n
+	return head
 }
 
-func reverse(n *Node) *Node {
+func reverse(head *Node) *Node {
 	var prev *Node
-	current := n
+	current := head
 	var next *Node
 
 	for current != nil {
@@ -59,19 +58,17 @@ func reverse(n *Node) *Node {
 		prev = current
 		current = next
 	}
-	head := prev
-	return head
+	return prev // now head
 }
 
-func print(n *Node) {
-	for ; n != nil; n = n.next {
-		fmt.Printf("%p %v\n", n, *n)
+func print(head *Node) {
+	for current := head; current != nil; current = current.next {
+		fmt.Printf("%p %v\n", current, *current)
 	}
 	fmt.Print("\n")
 }
 
 func main() {
-
 	list := push_back(nil, 1, 2, 3)
 	list = push_back(list, 4, 5)
 
