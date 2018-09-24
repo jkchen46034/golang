@@ -68,14 +68,6 @@ func everyBodyIntroduce(emps ...Introduce) {
 	}
 }
 
-func totalBonus(emps []*Employee) float64 {
-	var total float64
-	for _, emp := range emps {
-		total = total + emp.bonus
-	}
-	return total
-}
-
 func main() {
 	empA := NewEmployee("John Jarvis", 80000.00, 0)
 	mgrB := NewManager("Steve Young", 150000.00, 0, "corner office E")
@@ -85,7 +77,12 @@ func main() {
 
 	everyBodyIntroduce(empA, mgrB)
 
-	fmt.Printf("Total bonus is %d\n", int64(calculateTotalBonus(empA, mgrB)))
+	sum := calculateTotalBonus(empA, mgrB)
+	fmt.Printf("Total bonus is %d\n", int64(sum))
+
+	empList := []CalculateBonus{empA, mgrB}
+	sum = calculateTotalBonus(empList...)
+	fmt.Printf("Total bonus is %d\n", int64(sum))
 
 	fmt.Println(*empA)
 	fmt.Println(*mgrB)
