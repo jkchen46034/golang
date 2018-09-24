@@ -11,11 +11,14 @@ func print(name []string, score []int) {
 	}
 }
 
-func Sort(name []string, score []int, comp_swap func(i, j int)) {
+func Sort(name []string, score []int, comp func(i, j int) bool) {
 	n := len(score)
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {
-			comp_swap(i, j)
+			if comp(i, j) {
+				score[i], score[j] = score[j], score[i]
+				name[i], name[j] = name[j], name[i]
+			}
 		}
 	}
 }
@@ -27,20 +30,21 @@ func main() {
 	print(name, score)
 
 	// Sorted by score
-	Sort(name, score, func(i, j int) {
+	Sort(name, score, func(i, j int) bool {
 		if score[j] > score[i] {
-			score[i], score[j] = score[j], score[i]
-			name[i], name[j] = name[j], name[i]
+			return true
+		} else {
+			return false
 		}
-
 	})
 	print(name, score)
 
 	// Sorted by name
-	Sort(name, score, func(i, j int) {
+	Sort(name, score, func(i, j int) bool {
 		if strings.ToLower(name[j]) < strings.ToLower(name[i]) {
-			score[i], score[j] = score[j], score[i]
-			name[i], name[j] = name[j], name[i]
+			return true
+		} else {
+			return false
 		}
 	})
 	print(name, score)
