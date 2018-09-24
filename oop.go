@@ -96,6 +96,7 @@ My name John Jarvis, and I am solid
 Manager speaking here: My name Steve Young, office at corner office E
 Manager speaking here: My name Steve Young, office at corner office E
 Total bonus is 24200
+Total bonus is 24200
 {John Jarvis 80000 1200}
 {{Steve Young 150000 23000} corner office E}
 */
