@@ -10,36 +10,34 @@ type Node struct {
 }
 
 func push_back(head *Node, vals ...int) *Node {
-	// construct the link list for storing vals
+	if len(vals) == 0 {
+		return head
+	}
+
+	// construct a link list storing vals
 	var prev *Node
-	var headToNewList *Node
+	var valList *Node
 	var current *Node
 	for _, val := range vals {
 		current = &Node{val, nil}
 		if prev == nil {
-			headToNewList = current
+			valList = current
 		} else {
 			prev.next = current
 		}
 		prev = current
 	}
 
-	// nothing added
-	if headToNewList == nil {
-		return head
-	}
-
-	// nil root
 	if head == nil {
-		return headToNewList
+		return valList
 	}
 
-	// concatenate with the list pointed by head
+	// concatenate with head list
 	current = head
 	for current.next != nil {
 		current = current.next
 	}
-	current.next = headToNewList
+	current.next = valList
 
 	return head
 }
