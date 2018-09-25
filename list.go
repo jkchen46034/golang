@@ -34,7 +34,7 @@ func push_back(head *Node, vals ...int) *Node {
 		return headToNewList
 	}
 
-	// concatenate with the existing list pointed to by n
+	// concatenate with the list pointed by head
 	current = head
 	for current.next != nil {
 		current = current.next
@@ -69,16 +69,16 @@ func print(head *Node) {
 }
 
 func main() {
-	list := push_back(nil, 1, 2, 3)
-	list = push_back(list, 4, 5)
+	head := push_back(nil, 1, 2, 3)
+	head = push_back(head, 4, 5)
 
-	print(list)
+	print(head)
 
-	list = reverse(list)
-	print(list)
+	head = reverse(head)
+	print(head)
 
-	list = reverse(list)
-	print(list)
+	head = reverse(head)
+	print(head)
 }
 
 /*
