@@ -54,7 +54,7 @@ func (s *Stack) Drop(val int) (bool, int, []int) {
 
 	// stack is full, now tilt
 	ball, _ := s.Pop()
-	slice := make([]int, 0)
+	slice := make([]int, 0, s.capacity)
 	for !s.IsEmpty() {
 		val, _ := s.Pop()
 		slice = append(slice, val)
@@ -122,7 +122,7 @@ func main() {
 	var tilt bool
 	var slice []int
 
-	for n := 0; ; n++ {
+	for minute := 1; ; minute++ {
 		ball, _ = q.Pop()
 		for i := 0; i < numStacks; i++ {
 			tilt, ball, slice = stack[i].Drop(ball)
@@ -134,18 +134,20 @@ func main() {
 				q.Push(ball)
 			}
 		}
-		if (n+1)%(12*60) == 0 && q.IsCycle() {
-			fmt.Println(numBalls, "balls cycle after", (n+1)/(24*60), "days.")
+		if minute%(12*60) == 0 && q.IsCycle() {
+			fmt.Println(numBalls, "balls cycle after", minute/(12*60), "half days.")
 			break
 		}
 	}
 }
 
 /*
+$ go build ballclock.go
 $ time go run ballclock.go
-30 balls cycle after 15 days.
+30 balls cycle after 30 half days.
 
-real  0m0.600s
-user  0m0.524s
-sys   0m0.200s
+real  0m0.590s
+user  0m0.504s
+sys   0m0.232s
+
 */
