@@ -1,5 +1,5 @@
-// This file demonstratres how to structure a hash map for fast retrieval
-// While, at the same time, use a linear strucutre for orderly sequence access
+// This file demonstrates how to structure a hash map for fast retrieval
+// while, maintaining a linear strucutre for orderly sequential access
 
 package main
 
