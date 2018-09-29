@@ -140,14 +140,13 @@ func main() {
 		}
 	}
 }
-
 /*
-$ go build ballclock.go
-$ time go run ballclock.go
+
+golang$ go build ballclock.go
+golang$ time ./ballclock
 30 balls cycle after 30 half days.
 
-real  0m0.590s
-user  0m0.504s
-sys   0m0.232s
-
+real  0m0.010s
+user  0m0.004s
+sys   0m0.004s
 */
