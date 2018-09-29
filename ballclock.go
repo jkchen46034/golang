@@ -135,16 +135,17 @@ func main() {
 			}
 		}
 		if minute%(12*60) == 0 && q.IsCycle() {
-			fmt.Println(numBalls, "balls cycle after", minute/(12*60), "half days.")
+			fmt.Printf("%d balls cycles after %6.2f days\n", numBalls, float32(minute*1.0)/(12*60))
 			break
 		}
 	}
 }
+
 /*
 
 golang$ go build ballclock.go
 golang$ time ./ballclock
-30 balls cycle after 30 half days.
+30 balls cycles after  30.00 days
 
 real  0m0.010s
 user  0m0.004s
