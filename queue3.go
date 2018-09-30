@@ -63,7 +63,6 @@ func main() {
 	fmt.Printf("%+v\n", q)
 	fmt.Printf("IsFull? %v, IsEmpty? %v\n", q.IsFull(), q.IsEmpty())
 	q.Push(6)
-	// panic
 	fmt.Println(q.Pop())
 	fmt.Println(q.Pop())
 	fmt.Println(q.Pop())
