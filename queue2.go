@@ -10,7 +10,7 @@ type Queue struct {
 	arr   [5]int
 	front int32
 	tail  int32
-	size  int32
+	size  uint32
 }
 
 func NewQueue() *Queue {
@@ -18,11 +18,11 @@ func NewQueue() *Queue {
 }
 
 func (q *Queue) IsEmpty() bool {
-	return q.front == -1
+	return q.front == -1 || q.front > q.tail
 }
 
 func (q *Queue) IsFull() bool {
-	return q.tail == q.size-1
+	return uint32(q.tail) == q.size-1
 }
 
 func (q *Queue) Push(val int) {
@@ -32,7 +32,7 @@ func (q *Queue) Push(val int) {
 	}
 
 	if q.IsFull() {
-		panic("q.push() overflows")
+		panic(fmt.Sprintf("q.push(%v) overflows %+v \n", val, q))
 	}
 
 	q.tail = q.tail + 1
@@ -41,7 +41,7 @@ func (q *Queue) Push(val int) {
 
 func (q *Queue) Pop() int {
 	if q.IsEmpty() {
-		panic("q.Pop() underflows")
+		panic(fmt.Sprintf("q.Pop() underflows %+v\n", q))
 	}
 
 	q.front = q.front + 1
@@ -72,3 +72,19 @@ func main() {
 	// panic
 	//q.Pop()
 }
+
+/*
+$ go run queue2.go
+&{arr:[0 0 0 0 0] front:-1 tail:-1 size:5}
+IsFull? false, IsEmpty? true
+&{arr:[1 2 3 4 5] front:0 tail:4 size:5}
+IsFull? true, IsEmpty? false
+1
+2
+3
+4
+5
+&{arr:[1 2 3 4 5] front:5 tail:4 size:5}
+IsFull? true, IsEmpty? true
+
+*/
