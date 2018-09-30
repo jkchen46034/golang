@@ -65,8 +65,10 @@ func main() {
 	fmt.Println(q.Pop())
 	fmt.Printf("%+v\n", q)
 	fmt.Printf("IsFull? %v, IsEmpty? %v\n", q.IsFull(), q.IsEmpty())
-	// panic
+	//panic
 	//q.Pop()
+   //panic
+   //q.Push(1)
 }
 
 /*
