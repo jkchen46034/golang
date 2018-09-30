@@ -18,18 +18,14 @@ func NewQueue() *Queue {
 }
 
 func (q *Queue) IsEmpty() bool {
-	return q.front == -1 || q.front > q.tail
+	return q.front == q.tail
 }
 
 func (q *Queue) IsFull() bool {
-	return uint32(q.tail) == q.size-1
+	return uint32(q.tail+1) >= q.size
 }
 
 func (q *Queue) Push(val int) {
-
-	if q.front == -1 {
-		q.front = 0
-	}
 
 	if q.IsFull() {
 		panic(fmt.Sprintf("q.push(%v) overflows %+v \n", val, q))
@@ -46,7 +42,7 @@ func (q *Queue) Pop() int {
 
 	q.front = q.front + 1
 
-	return q.arr[q.front-1]
+	return q.arr[q.front]
 }
 
 func main() {
@@ -77,14 +73,13 @@ func main() {
 $ go run queue2.go
 &{arr:[0 0 0 0 0] front:-1 tail:-1 size:5}
 IsFull? false, IsEmpty? true
-&{arr:[1 2 3 4 5] front:0 tail:4 size:5}
+&{arr:[1 2 3 4 5] front:-1 tail:4 size:5}
 IsFull? true, IsEmpty? false
 1
 2
 3
 4
 5
-&{arr:[1 2 3 4 5] front:5 tail:4 size:5}
+&{arr:[1 2 3 4 5] front:4 tail:4 size:5}
 IsFull? true, IsEmpty? true
-
 */
