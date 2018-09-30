@@ -127,6 +127,8 @@ func main() {
 	fmt.Println("LCA of two nodes 3 and 8 is ", LCA(&node0, 3, 8))
 
 	fmt.Println("LCA of two nodes 7 and 4 is ", LCA(&node0, 7, 4))
+
+	fmt.Println("The number of nodes is ", count(&node0))
 }
 
 func infix(n *Node) {
@@ -188,6 +190,14 @@ func height(n *Node) int {
 	rheight := height(n.right)
 
 	return Max(lheight, rheight) + 1
+}
+
+// the number of nodes
+func count(n *Node) int {
+	if n == nil {
+		return 0
+	}
+	return count(n.left) + count(n.right) + 1
 }
 
 func path(n *Node, val int, q *[]int) bool {
@@ -350,6 +360,7 @@ func Diemeter(n *Node, dmax *int) int {
 func LCA(n *Node, from int, to int) int {
 	return 0
 }
+
 /*
 $ go run tree.go
 
@@ -360,11 +371,11 @@ $ go run tree.go
      3  4 8  5
       \     /
       7    6
-    
-Infix: 3 7 1 4 0 8 2 6 5 
-Prefix: 0 1 3 7 4 2 8 5 6 
-Postfix: 7 3 4 1 8 6 5 2 0 
-BFS: 0 1 2 3 4 8 5 7 6 
+
+Infix: 3 7 1 4 0 8 2 6 5
+Prefix: 0 1 3 7 4 2 8 5 6
+Postfix: 7 3 4 1 8 6 5 2 0
+BFS: 0 1 2 3 4 8 5 7 6
 Height of the tree is:  4
 Path from 0 to 4 is  [0 1 4]
 Path from 0 to 6 is  [0 2 5 6]
@@ -376,12 +387,12 @@ Route from 7 to 6 is  [7 3 1 0 2 5 6]
 Route from 7 to 4 is  [7 3 1 4]
 Route from 1 to 8 is  [1 0 2 8]
 Longest Expression:  8
-Path to each leaf: 
+Path to each leaf:
 path:  [0 1 3 7]
 path:  [0 1 4]
 path:  [0 2 8]
 path:  [0 2 5 6]
-Another all Path to each leaf: 
+Another all Path to each leaf:
 path:  [0 1 3 7]
 path:  [0 1 4]
 path:  [0 2 8]
@@ -391,4 +402,5 @@ Longest path:  [0 2 5 6]
 Diemeter of tree: 7 ; height of tree:  4
 LCA of two nodes 3 and 8 is  0
 LCA of two nodes 7 and 4 is  0
+The number of nodes is  9
 */
