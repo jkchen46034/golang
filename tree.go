@@ -129,6 +129,14 @@ func main() {
 	fmt.Println("LCA of two nodes 7 and 4 is ", LCA(&node0, 7, 4))
 
 	fmt.Println("The number of nodes is ", count(&node0))
+
+	fmt.Print("Leafs left to right: ")
+	LeafOnly(&node0)
+	fmt.Println()
+
+	fmt.Print("Leafs right to left: ")
+	LeafOnlyRL(&node0)
+	fmt.Println()
 }
 
 func infix(n *Node) {
@@ -198,6 +206,28 @@ func count(n *Node) int {
 		return 0
 	}
 	return count(n.left) + count(n.right) + 1
+}
+
+func LeafOnly(n *Node) {
+	if n == nil {
+		return
+	}
+	LeafOnly(n.left)
+	if n.left == nil && n.right == nil {
+		fmt.Print(" ", n.val)
+	}
+	LeafOnly(n.right)
+}
+
+func LeafOnlyRL(n *Node) {
+	if n == nil {
+		return
+	}
+	LeafOnlyRL(n.right)
+	if n.left == nil && n.right == nil {
+		fmt.Print(" ", n.val)
+	}
+	LeafOnlyRL(n.left)
 }
 
 func path(n *Node, val int, q *[]int) bool {
@@ -403,4 +433,6 @@ Diemeter of tree: 7 ; height of tree:  4
 LCA of two nodes 3 and 8 is  0
 LCA of two nodes 7 and 4 is  0
 The number of nodes is  9
+Leafs left to right:  7 4 8 6
+Leafs right to left:  6 8 4 7
 */
