@@ -17,32 +17,32 @@ func NewSHA256Hash(input []byte) []byte {
 	return h.Sum(nil)
 }
 
-func makeMerkleTree(input [][]byte) *Node {
-	for _, arr := range input {
-		fmt.Println(string(arr))
-	}
-	list := make([][]byte, len(input))
-	for i, arr := range input {
-		hash := NewSHA256Hash(arr)
+func makeMerkleTree(blocks [][]byte) *Node {
+	length := len(blocks)
+	node := make([]*Node, length, length)
+
+	for i, block := range blocks {
+		hash := NewSHA256Hash(block)
+		node[i] = &Node{nil, nil, NewSHA256Hash(block)}
 		fmt.Printf("%x\n", hash)
-		list[i] = hash
 	}
 
 	return nil
 }
 
 func main() {
-	arr := make([][]byte, 0)
-	arr = append(arr, []byte("Block1"))
-	arr = append(arr, []byte("Block2"))
-	arr = append(arr, []byte("Block3"))
-	arr = append(arr, []byte("Block4"))
-	arr = append(arr, []byte("Block5"))
-	tree := makeMerkleTree(arr)
+	blocks := make([][]byte, 0)
+	blocks = append(blocks, []byte("Block1"))
+	blocks = append(blocks, []byte("Block2"))
+	blocks = append(blocks, []byte("Block3"))
+	blocks = append(blocks, []byte("Block4"))
+	blocks = append(blocks, []byte("Block5"))
+	tree := makeMerkleTree(blocks)
 	fmt.Println(tree)
 }
+
 /*
-$ go run merkletree.go 
+$ go run merkletree.go
 Block1
 Block2
 Block3
