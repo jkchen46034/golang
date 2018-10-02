@@ -137,6 +137,11 @@ func main() {
 	fmt.Print("Leafs right to left: ")
 	LeafOnlyRL(&node0)
 	fmt.Println()
+
+	fmt.Print("Copy: ")
+	node := Copy(&node0)
+	infix(node)
+	fmt.Println()
 }
 
 func infix(n *Node) {
@@ -389,6 +394,16 @@ func Diemeter(n *Node, dmax *int) int {
 
 func LCA(n *Node, from int, to int) int {
 	return 0
+}
+
+func Copy(n *Node) *Node {
+	if n == nil {
+		return nil
+	}
+
+	left := Copy(n.left)
+	right := Copy(n.right)
+	return &Node{n.val, left, right}
 }
 
 /*
