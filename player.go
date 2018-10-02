@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-   "strings"
+	"strings"
 )
 
 func print(name []string, score []int) {
@@ -12,9 +12,9 @@ func print(name []string, score []int) {
 }
 
 func SortByScore(name []string, score []int) {
-   n := len(score)
+	n := len(score)
 	for i := 0; i < n-1; i++ {
-		for j := i+1; j < n; j++ {
+		for j := i + 1; j < n; j++ {
 			if score[j] > score[i] {
 				// swap
 				scorei := score[i]
@@ -30,9 +30,9 @@ func SortByScore(name []string, score []int) {
 }
 
 func SortByName(name []string, score []int) {
-   n := len(score)
+	n := len(score)
 	for i := 0; i < n-1; i++ {
-		for j := i+1; j<n; j++ {
+		for j := i + 1; j < n; j++ {
 			if strings.ToLower(name[j]) < strings.ToLower(name[i]) {
 				// swap
 				scorei := score[i]
@@ -60,14 +60,14 @@ func main() {
 	score = append(score, 8)
 	score = append(score, 12)
 
-   fmt.Println("original:")
+	fmt.Println("original:")
 	print(name, score)
 
-   fmt.Println("\nby score:")
+	fmt.Println("\nby score:")
 	SortByScore(name, score)
 	print(name, score)
 
-   fmt.Println("\nby name:")
+	fmt.Println("\nby name:")
 	SortByName(name, score)
 	print(name, score)
 }
