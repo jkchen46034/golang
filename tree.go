@@ -48,15 +48,15 @@ func Min(a int, b int) int {
 }
 
 func main() {
-	node7 := Node{7, nil, nil}
-	node3 := Node{3, nil, &node7}
-	node4 := Node{4, nil, nil}
-	node6 := Node{6, nil, nil}
-	node8 := Node{8, nil, nil}
-	node5 := Node{5, &node6, nil}
-	node2 := Node{2, &node8, &node5}
-	node1 := Node{1, &node3, &node4}
-	node0 := Node{0, &node1, &node2}
+	node7 := &Node{7, nil, nil}
+	node3 := &Node{3, nil, node7}
+	node4 := &Node{4, nil, nil}
+	node6 := &Node{6, nil, nil}
+	node8 := &Node{8, nil, nil}
+	node5 := &Node{5, node6, nil}
+	node2 := &Node{2, node8, node5}
+	node1 := &Node{1, node3, node4}
+	node0 := &Node{0, node1, node2}
 
 	fmt.Println(`
         0
@@ -69,79 +69,90 @@ func main() {
     `)
 
 	fmt.Print("Infix: ")
-	infix(&node0)
+	infix(node0)
 
 	fmt.Print("\nPrefix: ")
-	prefix(&node0)
+	prefix(node0)
 
 	fmt.Print("\nPostfix: ")
-	postfix(&node0)
+	postfix(node0)
 
 	fmt.Print("\nBFS: ")
-	bfs(&node0)
+	bfs(node0)
 
-	fmt.Println("\nHeight of the tree is: ", height(&node0))
+	fmt.Println("\nHeight of the tree is: ", height(node0))
 
 	q := make([]int, 0)
-	path(&node0, 4, &q)
+	path(node0, 4, &q)
 	fmt.Println("Path from 0 to 4 is ", q)
 
 	q = q[0:0]
-	path(&node0, 6, &q)
+	path(node0, 6, &q)
 	fmt.Println("Path from 0 to 6 is ", q)
 
 	q = q[0:0]
-	path(&node0, 3, &q)
+	path(node0, 3, &q)
 	fmt.Println("Path from 0 to 3 is ", q)
 
 	q = q[0:0]
-	path(&node0, 0, &q)
+	path(node0, 0, &q)
 	fmt.Println("Path from 0 to 0 is ", q)
 
-	fmt.Println("Route from 8 to 5 is  ", route(&node0, 8, 5))
-	fmt.Println("Route from 4 to 5 is  ", route(&node0, 4, 5))
-	fmt.Println("Route from 7 to 6 is ", route(&node0, 7, 6))
-	fmt.Println("Route from 7 to 4 is ", route(&node0, 7, 4))
-	fmt.Println("Route from 1 to 8 is ", route(&node0, 1, 8))
+	fmt.Println("Route from 8 to 5 is  ", route(node0, 8, 5))
+	fmt.Println("Route from 4 to 5 is  ", route(node0, 4, 5))
+	fmt.Println("Route from 7 to 6 is ", route(node0, 7, 6))
+	fmt.Println("Route from 7 to 4 is ", route(node0, 7, 4))
+	fmt.Println("Route from 1 to 8 is ", route(node0, 1, 8))
 
 	fmt.Println("Longest Expression: ",
 		LongestExpression(")((())())))) ()()"))
 
 	allPaths := make([]int, 0)
 	fmt.Println("Path to each leaf: ")
-	paths(&node0, &allPaths)
+	paths(node0, &allPaths)
 
 	fmt.Println("Another all Path to each leaf: ")
-	AllPaths(&node0, make([]int, 0))
+	AllPaths(node0, make([]int, 0))
 
 	longestPaths := make([][]int, 0)
-	LongestPath(&node0, make([]int, 0), &longestPaths)
+	LongestPath(node0, make([]int, 0), &longestPaths)
 	for _, path := range longestPaths {
 		fmt.Println("Longest path: ", path)
 	}
 
 	var dmax int
-	height := Diemeter(&node0, &dmax)
+	height := Diemeter(node0, &dmax)
 	fmt.Println("Diemeter of tree:", dmax, "; height of tree: ", height)
 
-	fmt.Println("LCA of two nodes 3 and 8 is ", LCA(&node0, 3, 8))
+	fmt.Println("LCA of two nodes 3 and 8 is ", LCA(node0, 3, 8))
 
-	fmt.Println("LCA of two nodes 7 and 4 is ", LCA(&node0, 7, 4))
+	fmt.Println("LCA of two nodes 7 and 4 is ", LCA(node0, 7, 4))
 
-	fmt.Println("The number of nodes is ", count(&node0))
+	fmt.Println("The number of nodes is ", count(node0))
 
 	fmt.Print("Leafs left to right: ")
-	LeafOnly(&node0)
+	LeafOnly(node0)
 	fmt.Println()
 
 	fmt.Print("Leafs right to left: ")
-	LeafOnlyRL(&node0)
+	LeafOnlyRL(node0)
 	fmt.Println()
 
 	fmt.Print("Copy: ")
-	node := Copy(&node0)
+	node := Copy(node0)
 	infix(node)
 	fmt.Println()
+
+	fmt.Println("Equality of (node0 and node) : ", IsEqual(node0, node))
+
+	node.left.left.val = 500
+	fmt.Println("Equality of (node0 and node) : ", IsEqual(node0, node))
+
+	node.left.right = nil
+	fmt.Println("Equality of (node0 and node) : ", IsEqual(node0, node))
+
+	node = nil
+	fmt.Println("Equality of (node0 and node) : ", IsEqual(node0, node))
 }
 
 func infix(n *Node) {
@@ -406,6 +417,26 @@ func Copy(n *Node) *Node {
 	return &Node{n.val, left, right}
 }
 
+func IsEqual(n *Node, m *Node) bool {
+	if n == nil && m == nil {
+		return true
+	}
+
+	if (n == nil && m != nil) || (n != nil && m == nil) {
+		return false
+	}
+
+	if n.val != m.val {
+		return false
+	}
+
+	if !IsEqual(n.left, m.left) {
+		return false
+	}
+
+	return IsEqual(n.right, m.right)
+}
+
 /*
 $ go run tree.go
 
@@ -450,4 +481,10 @@ LCA of two nodes 7 and 4 is  0
 The number of nodes is  9
 Leafs left to right:  7 4 8 6
 Leafs right to left:  6 8 4 7
+Copy: 3 7 1 4 0 8 2 6 5
+Equality of (node0 and node) :  true
+Equality of (node0 and node) :  false
+Equality of (node0 and node) :  false
+Equality of (node0 and node) :  false
+
 */
