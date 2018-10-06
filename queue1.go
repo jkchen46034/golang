@@ -21,6 +21,7 @@ func main() {
 	fmt.Println("pop from queue, ", v)
 	fmt.Println("queue: ", q)
 }
+
 /*
 $ go run queue1.go
 push 1, 2, 3, to queue: [1 2 3]

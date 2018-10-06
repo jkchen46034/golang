@@ -49,7 +49,7 @@ func main() {
 $ go run server.go
 Listening on localhost:9999
 $ go run client.go
-.... server received 
+.... server received
 {"EventName":"True Golf","EventLocation":"West Jordan 7000","EventId":1001,"Speed":[21,18.9,45]}
 ----- client received
 {"EventName":"True Golf","EventLocation":"Top Golf Lehi","EventId":1234,"Speed":[102,88.9,44.2,38.6,25.7]}

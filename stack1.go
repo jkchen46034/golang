@@ -23,6 +23,7 @@ func main() {
 	// the remaing queue
 	fmt.Println("stack:", s)
 }
+
 /*
 $ go run stack1.go
 pushed 1, 2, 3, to stack,  [1 2 3]

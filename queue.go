@@ -34,6 +34,7 @@ func main() {
 	fmt.Println("pop from queue, ", q.Pop())
 	fmt.Println("queue: ", *q)
 }
+
 /*
 
 $ go run queue.go
