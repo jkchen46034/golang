@@ -1,0 +1,6 @@
+stack.go  implements a stack using struct
+stack1.go implements a stack brute force inside main
+stack2.go implements a stack using array
+stack3.go implmeents a thread value stack
+stack4.go implmeents a thread stack
+
