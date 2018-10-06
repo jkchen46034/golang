@@ -23,4 +23,13 @@ func main() {
 		fmt.Println("error: ", err)
 	}
 	os.Stdout.Write(b)
+	fmt.Println()
+
+	jsonblob := []byte(`{"ID":2, "Nickname": "Katy", "Alias":["Mr. JacK", "Miss Ki", "Joking K"]}`)
+	var jsonobj Human
+	err = json.Unmarshal(jsonblob, &jsonobj)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	fmt.Println(jsonobj)
 }
