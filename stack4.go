@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 type Stack struct {
@@ -33,7 +34,8 @@ func (s *Stack) Pop() int {
 
 func (s *Stack) thread(wg *sync.WaitGroup) {
 	defer wg.Done()
-	for i := 0; i < 200000; i++ {
+	time.Sleep(1000 * time.Millisecond)
+	for i := 0; i < 2000000; i++ {
 		s.Push(1, 2, 3, 4, 5)
 		s.Pop()
 		s.Pop()
