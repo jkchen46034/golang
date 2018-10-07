@@ -32,7 +32,6 @@ func makeMerkleTree(blocks [][]byte) *Node {
 
 	for i, block := range blocks {
 		node[i] = &Node{nil, nil, NewSHA256Hash(block)}
-		fmt.Printf("%p %v %v %X\n", node[i], node[i].left, node[i].right, node[i].hash)
 	}
 
 	// repeatively build the tree until a root node is built
