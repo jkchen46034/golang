@@ -1,5 +1,3 @@
-// This function implements a simplied block chain
-
 package main
 
 import (

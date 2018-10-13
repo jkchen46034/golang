@@ -1,4 +1,6 @@
-// This function implements a simplied block chain
+// This function implements a simplied block chain with Proof of Work
+// level of difficulty: 24 bits
+// This code is based on works from Jeiwan Github repo
 
 package main
 
@@ -16,7 +18,7 @@ $ go build
 $ ./ProofOfWork
 Block 0
 Data: Genesis Block
-Previous Hash: 
+Previous Hash:
 Hash: 000000F6542C5410D5BB6CD1018CCB878F51276F01460AE4517A288ADED4FAF7 Nonce:25714619
 Block 1
 Data: sent to J 100 million dollars
