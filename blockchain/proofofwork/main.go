@@ -15,7 +15,7 @@ func main() {
 /*
 
 $ go build
-$ ./ProofOfWork
+$ ./proofofwork
 Block 0
 Data: Genesis Block
 Previous Hash:
