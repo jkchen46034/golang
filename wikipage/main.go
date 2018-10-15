@@ -12,6 +12,11 @@ type Page struct {
 	Body  []byte
 }
 
+func savePage(page *Page) error {
+	err := ioutil.WriteFile(page.Title, page.Body, 0666)
+	return err
+}
+
 func loadPage(filename string) (*Page, error) {
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -30,6 +35,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, string(page.Body))
 }
+
 func main() {
 	http.HandleFunc("/view/", viewHandler)
 	log.Println("Listening on port 8080")
