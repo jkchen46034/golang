@@ -32,7 +32,6 @@ func (tree *Node) insert(val int) *Node {
 	}
 	node0 := tree
 
-	// search
 	for node0 != nil {
 		if val > node0.val {
 			if node0.right == nil {
@@ -51,6 +50,19 @@ func (tree *Node) insert(val int) *Node {
 		}
 	}
 	return tree
+}
+
+func (tree *Node) find(val int) *Node {
+	if tree == nil {
+		return nil
+	}
+
+	if tree.val == val {
+		return tree
+	} else if val > tree.val {
+		return tree.right.find(val)
+	}
+	return tree.left.find(val)
 }
 
 // Breadth frist traversal
@@ -86,7 +98,22 @@ func main() {
 	for _, val := range vals {
 		root = root.insert(val)
 	}
+
 	root.bfs()
+
+	var node *Node
+	node = root.find(4)
+	fmt.Println("trying to find 4, found: ", node.val)
+	node = root.find(9)
+	fmt.Println("trying to find 9, found: ", node.val)
+	node = root.find(13)
+	fmt.Println("trying to find 13, found: ")
+	if node == nil {
+		fmt.Println(node)
+	} else {
+		fmt.Println(node.val)
+	}
+
 	return
 }
 
