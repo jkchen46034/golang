@@ -104,8 +104,8 @@ func main() {
 	fmt.Println("Route from 7 to 4 is ", route(node0, 7, 4))
 	fmt.Println("Route from 1 to 8 is ", route(node0, 1, 8))
 
-	fmt.Println("Longest Expression: ",
-		LongestExpression(")((())())))) ()()"))
+	//fmt.Println("Longest Expression: ",
+	//		LongestExpression(")((())())))) ()()"))
 
 	allPaths := make([]int, 0)
 	fmt.Println("Path to each leaf: ")
