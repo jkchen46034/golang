@@ -41,8 +41,7 @@ func (tree *Node) insert(val int) *Node {
 			} else {
 				node0 = node0.right
 			}
-		}
-		if val < node0.val {
+		} else if val < node0.val {
 			if node0.left == nil {
 				node0.left = node
 				break
@@ -54,36 +53,53 @@ func (tree *Node) insert(val int) *Node {
 	return tree
 }
 
-// breadth frist traversal
-func bfs(n *Node) {
-    if n == nil {
-        return
-    }
-    queue := make([]*Node, 0)
-    queue = append(queue, n)
-    for len(queue) > 0 {
-        n := queue[0]
-        queue = queue[1:]
-        //visit(n)
-		fmt.Println(n.val)
-        if n.left != nil {
-            queue = append(queue, n.left) 
-        }
-        if n.right != nil {
-            queue = append(queue, n.right)
-        }
-    }
+// Breadth frist traversal
+
+func (n *Node) bfs() {
+	if n == nil {
+		return
+	}
+	queue := make([]*Node, 0)
+	queue = append(queue, n)
+	for len(queue) > 0 {
+		n := queue[0]
+		queue = queue[1:]
+		n.visit()
+		if n.left != nil {
+			queue = append(queue, n.left)
+		}
+		if n.right != nil {
+			queue = append(queue, n.right)
+		}
+	}
 }
 
+func (n *Node) visit() {
+	fmt.Println(n.val)
+}
 
 func main() {
 	vals := []int{10, 7, 12, 4, 9, 11, 15}
 
-	var tree *Node
+	var root *Node
 
 	for _, val := range vals {
-		tree = tree.insert(val)
+		root = root.insert(val)
 	}
-	bfs(tree)
+	root.bfs()
 	return
 }
+
+/*
+
+$ go run bst.go
+
+10
+7
+12
+4
+9
+11
+15
+
+*/
