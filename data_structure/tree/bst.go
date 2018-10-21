@@ -99,6 +99,7 @@ func main() {
 		root = root.insert(val)
 	}
 
+	fmt.Println("Breadth Frist Traversal:")
 	root.bfs()
 
 	var node *Node
@@ -120,7 +121,7 @@ func main() {
 /*
 
 $ go run bst.go
-
+Breadth Frist Traversal:
 10
 7
 12
@@ -128,5 +129,9 @@ $ go run bst.go
 9
 11
 15
+trying to find 4, found:  4
+trying to find 9, found:  9
+trying to find 13, found: 
+<nil>
 
 */
