@@ -8,8 +8,8 @@ import (
 
 type Tree struct {
 	Left  *Tree
-	Right *Tree
 	Val   int
+	Right *Tree
 }
 
 /*
@@ -22,7 +22,7 @@ type Tree struct {
 */
 
 func NewTree(Val int) *Tree {
-	return &Tree{nil, nil, Val}
+	return &Tree{nil, Val, nil}
 }
 
 func (tree *Tree) Insert(Val int) *Tree {
