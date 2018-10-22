@@ -1,4 +1,4 @@
-// This class implements a binary search tree, with insert, find, delete, and rebalance methods
+// This class implements a binary search tree, with Insert, Find, delete, and rebalance methods
 
 package main
 
@@ -6,10 +6,10 @@ import (
 	"fmt"
 )
 
-type Node struct {
-	left  *Node
-	right *Node
-	val   int
+type Tree struct {
+	Left  *Tree
+	Right *Tree
+	Val   int
 }
 
 /*
@@ -21,94 +21,94 @@ type Node struct {
 
 */
 
-func NewNode(val int) *Node {
-	return &Node{nil, nil, val}
+func NewTree(Val int) *Tree {
+	return &Tree{nil, nil, Val}
 }
 
-func (node *Node) insert(val int) *Node {
-	if node == nil {
-		return NewNode(val)
+func (tree *Tree) Insert(Val int) *Tree {
+	if tree == nil {
+		return NewTree(Val)
 	}
-	if val > node.val {
-		node.right = node.right.insert(val)
-	} else if val < node.val {
-		node.left = node.left.insert(val)
+	if Val > tree.Val {
+		tree.Right = tree.Right.Insert(Val)
+	} else if Val < tree.Val {
+		tree.Left = tree.Left.Insert(Val)
 	}
-	return node
+	return tree
 }
 
-func (tree *Node) find(val int) *Node {
-	if tree == nil || tree.val == val {
+func (tree *Tree) Find(Val int) *Tree {
+	if tree == nil || tree.Val == Val {
 		return tree
 	}
 
-	if val > tree.val {
-		return tree.right.find(val)
+	if Val > tree.Val {
+		return tree.Right.Find(Val)
 	}
-	return tree.left.find(val)
+	return tree.Left.Find(Val)
 }
 
-// Inorder traversal of a bst is sort
-func (node *Node) inorder() {
-	if node == nil {
+func (tree *Tree) Inorder() {
+	if tree == nil {
 		return
 	}
-	node.left.inorder()
-	node.visit()
-	node.right.inorder()
+	tree.Left.Inorder()
+	tree.visit()
+	tree.Right.Inorder()
 }
 
-// Breadth frist traversal
-
-func (n *Node) bfs() {
-	if n == nil {
+func (t *Tree) Bfs() {
+	if t == nil {
 		return
 	}
-	queue := make([]*Node, 0)
-	queue = append(queue, n)
+	queue := make([]*Tree, 0)
+	queue = append(queue, t)
 	for len(queue) > 0 {
-		n := queue[0]
+		t := queue[0]
 		queue = queue[1:]
-		n.visit()
-		if n.left != nil {
-			queue = append(queue, n.left)
+		t.visit()
+		if t.Left != nil {
+			queue = append(queue, t.Left)
 		}
-		if n.right != nil {
-			queue = append(queue, n.right)
+		if t.Right != nil {
+			queue = append(queue, t.Right)
 		}
 	}
 }
 
-func (n *Node) visit() {
-	fmt.Println(n.val)
+func (t *Tree) visit() {
+	fmt.Println(t.Val)
 }
 
 func main() {
-	vals := []int{10, 7, 12, 4, 9, 11, 15}
+	Vals := []int{10, 7, 12, 4, 9, 11, 15}
 
-	var root *Node
+	var tree *Tree
 
-	for _, val := range vals {
-		root = root.insert(val)
+	for _, Val := range Vals {
+		tree = tree.Insert(Val)
 	}
 
 	fmt.Println("Breadth First Traversal:")
-	root.bfs()
+	tree.Bfs()
 
 	fmt.Println("Inorder Traversal:")
-	root.inorder()
+	tree.Inorder()
 
-	var node *Node
-	node = root.find(4)
-	fmt.Println("trying to find 4, found: ", node.val)
-	node = root.find(9)
-	fmt.Println("trying to find 9, found: ", node.val)
-	node = root.find(13)
-	fmt.Println("trying to find 13, found: ")
-	if node == nil {
-		fmt.Println(node)
+	var t *Tree
+
+	t = tree.Find(4)
+	fmt.Println("trying to Find 4, found: ", t.Val)
+
+	t = tree.Find(9)
+	fmt.Println("trying to Find 9, found: ", t.Val)
+
+	t = tree.Find(13)
+	fmt.Print("trying to Find 13, found: ")
+	if t == nil {
+		fmt.Println(t)
 	} else {
-		fmt.Println(node.val)
+		fmt.Println(t.Val)
 	}
 
 	return
@@ -133,9 +133,8 @@ Inorder Traversal:
 11
 12
 15
-trying to find 4, found:  4
-trying to find 9, found:  9
-trying to find 13, found:
-<nil>
+trying to Find 4, found:  4
+trying to Find 9, found:  9
+trying to Find 13, found: <nil>
 
 */
