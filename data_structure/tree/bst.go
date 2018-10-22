@@ -52,17 +52,32 @@ func (tree *Node) insert(val int) *Node {
 	return tree
 }
 
+// find() implemented recursivley
+/*
 func (tree *Node) find(val int) *Node {
-	if tree == nil {
-		return nil
+	if tree == nil || tree.val == val {
+		return tree
 	}
 
-	if tree.val == val {
-		return tree
-	} else if val > tree.val {
+	if val > tree.val {
 		return tree.right.find(val)
 	}
 	return tree.left.find(val)
+}
+*/
+
+// find() implmeneted iteratively
+func (tree *Node) find(val int) *Node {
+	for tree != nil {
+		if tree.val == val {
+			return tree
+		} else if val > tree.val {
+			tree = tree.right
+		} else {
+			tree = tree.left
+		}
+	}
+	return nil
 }
 
 // Breadth frist traversal
@@ -99,7 +114,7 @@ func main() {
 		root = root.insert(val)
 	}
 
-	fmt.Println("Breadth Frist Traversal:")
+	fmt.Println("Breadth First Traversal:")
 	root.bfs()
 
 	var node *Node
@@ -121,7 +136,7 @@ func main() {
 /*
 
 $ go run bst.go
-Breadth Frist Traversal:
+Breadth First Traversal:
 10
 7
 12
@@ -131,7 +146,7 @@ Breadth Frist Traversal:
 15
 trying to find 4, found:  4
 trying to find 9, found:  9
-trying to find 13, found: 
+trying to find 13, found:
 <nil>
 
 */
