@@ -75,6 +75,16 @@ func (node *Node) find(val int) *Node {
 	return nil
 }
 
+// Inorder traversal of a bst is sort
+func (node *Node) inorder() {
+	if node == nil {
+		return
+	}
+	node.left.inorder()
+	node.visit()
+	node.right.inorder()
+}
+
 // Breadth frist traversal
 
 func (n *Node) bfs() {
@@ -112,6 +122,9 @@ func main() {
 	fmt.Println("Breadth First Traversal:")
 	root.bfs()
 
+	fmt.Println("Inorder Traversal:")
+	root.inorder()
+
 	var node *Node
 	node = root.find(4)
 	fmt.Println("trying to find 4, found: ", node.val)
@@ -138,6 +151,14 @@ Breadth First Traversal:
 4
 9
 11
+15
+Inorder Traversal:
+4
+7
+9
+10
+11
+12
 15
 trying to find 4, found:  4
 trying to find 9, found:  9
