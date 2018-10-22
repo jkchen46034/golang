@@ -25,7 +25,6 @@ func NewNode(val int) *Node {
 	return &Node{nil, nil, val}
 }
 
-// insert() recursively
 func (node *Node) insert(val int) *Node {
 	if node == nil {
 		return NewNode(val)
@@ -38,22 +37,6 @@ func (node *Node) insert(val int) *Node {
 	return node
 }
 
-// find() implemented iteratively
-func (node *Node) find(val int) *Node {
-	for node != nil {
-		if node.val == val {
-			return node
-		} else if val > node.val {
-			node = node.right
-		} else {
-			node = node.left
-		}
-	}
-	return nil
-}
-
-// find() implemented recursivley
-/*
 func (tree *Node) find(val int) *Node {
 	if tree == nil || tree.val == val {
 		return tree
@@ -64,7 +47,6 @@ func (tree *Node) find(val int) *Node {
 	}
 	return tree.left.find(val)
 }
-*/
 
 // Inorder traversal of a bst is sort
 func (node *Node) inorder() {
@@ -156,29 +138,4 @@ trying to find 9, found:  9
 trying to find 13, found:
 <nil>
 
-*/
-
-// insert() by interation
-/*
-func (node *Node) insert(val int) *Node {
-	root := node
-	for node != nil {
-		if val > node.val {
-			if node.right == nil {
-				node.right = NewNode(val)
-				return root
-			} else {
-				node = node.right
-			}
-		} else if val < node.val {
-			if node.left == nil {
-				node.left = NewNode(val)
-				return root
-			} else {
-				node = node.left
-			}
-		}
-	}
-	return NewNode(val)
-}
 */
