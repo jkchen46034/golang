@@ -25,31 +25,26 @@ func NewNode(val int) *Node {
 	return &Node{nil, nil, val}
 }
 
-func (tree *Node) insert(val int) *Node {
-	node := NewNode(val)
-	if tree == nil {
-		return node
-	}
-	node0 := tree
-
-	for node0 != nil {
-		if val > node0.val {
-			if node0.right == nil {
-				node0.right = node
-				break
+func (node *Node) insert(val int) *Node {
+	root := node
+	for node != nil {
+		if val > node.val {
+			if node.right == nil {
+				node.right = NewNode(val)
+				return root
 			} else {
-				node0 = node0.right
+				node = node.right
 			}
-		} else if val < node0.val {
-			if node0.left == nil {
-				node0.left = node
-				break
+		} else if val < node.val {
+			if node.left == nil {
+				node.left = NewNode(val)
+				return root
 			} else {
-				node0 = node0.left
+				node = node.left
 			}
 		}
 	}
-	return tree
+	return NewNode(val)
 }
 
 // find() implemented recursivley
@@ -67,14 +62,14 @@ func (tree *Node) find(val int) *Node {
 */
 
 // find() implmeneted iteratively
-func (tree *Node) find(val int) *Node {
-	for tree != nil {
-		if tree.val == val {
-			return tree
-		} else if val > tree.val {
-			tree = tree.right
+func (node *Node) find(val int) *Node {
+	for node != nil {
+		if node.val == val {
+			return node
+		} else if val > node.val {
+			node = node.right
 		} else {
-			tree = tree.left
+			node = node.left
 		}
 	}
 	return nil
