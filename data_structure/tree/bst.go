@@ -1,4 +1,4 @@
-// This class implements a binary search tree, with Insert, Find, delete, and rebalance methods
+// This class implements a binary search tree, with Insert, Find, Delete, and Rebalance methods
 
 package main
 
@@ -46,6 +46,34 @@ func (tree *Tree) Find(val int) *Tree {
 		return tree.Right.Find(val)
 	}
 	return tree.Left.Find(val)
+}
+
+// Find the minium value that is equal to or greater than the
+// search val
+func (t *Tree) MinFind(val int) (*Tree, int) {
+	if t == nil {
+		return nil, 9999999
+	}
+	if val == t.Val {
+		return t, 0
+	}
+	if val > t.Val {
+		minNode, childmin := t.Right.MinFind(val)
+		localmin := t.Val - val
+		if localmin > 0 && localmin < childmin {
+			return t, localmin
+		} else {
+			return minNode, childmin
+		}
+	}
+
+	minNode, childmin := t.Left.MinFind(val)
+	localmin := t.Val - val
+	if localmin > 0 && localmin < childmin {
+		return t, localmin
+	} else {
+		return minNode, childmin
+	}
 }
 
 func (tree *Tree) Inorder() {
@@ -111,6 +139,18 @@ func main() {
 		fmt.Println(t.Val)
 	}
 
+	n, _ := tree.MinFind(13)
+	fmt.Println("trying to Min Find 13, found: ", n.Val)
+	n, _ = tree.MinFind(8)
+	fmt.Println("trying to Min Find 8, found: ", n.Val)
+	n, _ = tree.MinFind(5)
+	fmt.Println("trying to Min Find 5, found: ", n.Val)
+	n, _ = tree.MinFind(11)
+	fmt.Println("trying to Min Find 11, found: ", n.Val)
+	n, _ = tree.MinFind(2)
+	fmt.Println("trying to Min Find 2, found: ", n.Val)
+	n, _ = tree.MinFind(20)
+	fmt.Println("trying to Min Find 20, found: ", n)
 	return
 }
 
@@ -136,5 +176,11 @@ Inorder Traversal:
 trying to Find 4, found:  4
 trying to Find 9, found:  9
 trying to Find 13, found: <nil>
+trying to Min Find 13, found:  15
+trying to Min Find 8, found:  9
+trying to Min Find 5, found:  7
+trying to Min Find 11, found:  11
+trying to Min Find 2, found:  4
+trying to Min Find 20, found:  <nil>
 
 */
