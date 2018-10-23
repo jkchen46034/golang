@@ -142,64 +142,76 @@ func main() {
 	var t *Tree
 
 	t = tree.Find(4)
-	fmt.Println("trying to Find 4, found: ", t.Val)
+	fmt.Println("Finding == 4, found: ", t.Val)
 
 	t = tree.Find(9)
-	fmt.Println("trying to Find 9, found: ", t.Val)
+	fmt.Println("Finding == 9, found: ", t.Val)
 
 	t = tree.Find(23)
-	fmt.Println("trying to Find 23, found: ", t.Val)
+	fmt.Println("Finding == 23, found: ", t.Val)
 
 	t = tree.Find(13)
-	fmt.Println("trying to Find 13, found: ", t)
+	fmt.Println("Finding == 13, found: ", t)
 
 	t = tree.Find(24)
-	fmt.Println("trying to Find 24, found: ", t)
+	fmt.Println("Finding == 24, found: ", t)
 
 	visited = 0
 	var n *Tree
 	n, _ = tree.MinFind(13)
-	fmt.Println("trying to Min Find 13, found: ", n.Val)
+	fmt.Println("Finding >= 13, found: ", n.Val)
 	n, _ = tree.MinFind(24)
-	fmt.Println("trying to Min Find 24, found: ", n.Val)
-	n, _ = tree.MinFind(23)
-	fmt.Println("trying to Min Find 23, found: ", n.Val)
+	fmt.Println("Finding >= 24, found: ", n.Val)
+	n, _ = tree.MinFind(9)
+	fmt.Println("Finding >= 9, found: ", n.Val)
 	n, _ = tree.MinFind(6)
-	fmt.Println("trying to Min Find 6, found: ", n.Val)
+	fmt.Println("Finding >= 6, found: ", n.Val)
 	n, _ = tree.MinFind(2)
-	fmt.Println("trying to Min Find 2, found: ", n.Val)
+	fmt.Println("Finding >= 2, found: ", n.Val)
 	n, _ = tree.MinFind(30)
-	fmt.Println("trying to Min Find 30, found: ", n)
+	fmt.Println("Finding >= 30, found: ", n)
 	return
 }
 
 /*
-
 $ go run bst.go
+
+
+        20
+       /  \
+      18  25
+      /   / \
+     4   23 28
+      \
+       9
+
+
 Breadth First Traversal:
 20
 18
-22
-4
-21
 25
+4
+23
+28
 9
 Inorder Traversal:
 4
 9
 18
 20
-21
-22
+23
 25
-trying to Find 4, found:  4
-trying to Find 9, found:  9
-trying to Find 13, found: <nil>
-trying to Min Find 13, found:  18
-trying to Min Find 8, found:  9
-trying to Min Find 19, found:  20
-trying to Min Find 11, found:  18
-trying to Min Find 2, found:  4
-trying to Min Find 30, found:  <nil>
+28
+Finding == 4, found:  4
+Finding == 9, found:  9
+Finding 23, found:  23
+Finding 13, found:  <nil>
+Finding 24, found:  <nil>
+Finding >= 13, found:  18
+Finding >= 24, found:  25
+Finding >= 9, found:  9
+Finding >= 6, found:  9
+Finding >= 2, found:  4
+Finding >= 30, found:  <nil>
 
 */
