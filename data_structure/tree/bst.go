@@ -13,11 +13,13 @@ type Tree struct {
 }
 
 /*
-    10
+    20
    /  \
-  7   12
- / \ / \
-4  9 11 15
+  18  22
+ /    / \
+4   21 25
+ \
+  9
 
 */
 
@@ -50,7 +52,10 @@ func (tree *Tree) Find(val int) *Tree {
 
 // Find the minium value that is equal to or greater than the
 // search val
+var visited int
+
 func (t *Tree) MinFind(val int) (*Tree, int) {
+	visited += 1
 	if t == nil {
 		return nil, 9999999
 	}
@@ -109,7 +114,18 @@ func (t *Tree) visit() {
 }
 
 func main() {
-	vals := []int{10, 7, 12, 4, 9, 11, 15}
+	fmt.Println(`
+
+        20
+       /  \
+      18  25
+      /   / \
+     4   23 28
+      \
+       9
+
+	`)
+	vals := []int{20, 18, 25, 4, 9, 23, 28}
 
 	var tree *Tree
 
@@ -131,26 +147,29 @@ func main() {
 	t = tree.Find(9)
 	fmt.Println("trying to Find 9, found: ", t.Val)
 
-	t = tree.Find(13)
-	fmt.Print("trying to Find 13, found: ")
-	if t == nil {
-		fmt.Println(t)
-	} else {
-		fmt.Println(t.Val)
-	}
+	t = tree.Find(23)
+	fmt.Println("trying to Find 23, found: ", t.Val)
 
-	n, _ := tree.MinFind(13)
+	t = tree.Find(13)
+	fmt.Println("trying to Find 13, found: ", t)
+
+	t = tree.Find(24)
+	fmt.Println("trying to Find 24, found: ", t)
+
+	visited = 0
+	var n *Tree
+	n, _ = tree.MinFind(13)
 	fmt.Println("trying to Min Find 13, found: ", n.Val)
-	n, _ = tree.MinFind(8)
-	fmt.Println("trying to Min Find 8, found: ", n.Val)
-	n, _ = tree.MinFind(5)
-	fmt.Println("trying to Min Find 5, found: ", n.Val)
-	n, _ = tree.MinFind(11)
-	fmt.Println("trying to Min Find 11, found: ", n.Val)
+	n, _ = tree.MinFind(24)
+	fmt.Println("trying to Min Find 24, found: ", n.Val)
+	n, _ = tree.MinFind(23)
+	fmt.Println("trying to Min Find 23, found: ", n.Val)
+	n, _ = tree.MinFind(6)
+	fmt.Println("trying to Min Find 6, found: ", n.Val)
 	n, _ = tree.MinFind(2)
 	fmt.Println("trying to Min Find 2, found: ", n.Val)
-	n, _ = tree.MinFind(20)
-	fmt.Println("trying to Min Find 20, found: ", n)
+	n, _ = tree.MinFind(30)
+	fmt.Println("trying to Min Find 30, found: ", n)
 	return
 }
 
@@ -158,29 +177,29 @@ func main() {
 
 $ go run bst.go
 Breadth First Traversal:
-10
-7
-12
+20
+18
+22
 4
+21
+25
 9
-11
-15
 Inorder Traversal:
 4
-7
 9
-10
-11
-12
-15
+18
+20
+21
+22
+25
 trying to Find 4, found:  4
 trying to Find 9, found:  9
 trying to Find 13, found: <nil>
-trying to Min Find 13, found:  15
+trying to Min Find 13, found:  18
 trying to Min Find 8, found:  9
-trying to Min Find 5, found:  7
-trying to Min Find 11, found:  11
+trying to Min Find 19, found:  20
+trying to Min Find 11, found:  18
 trying to Min Find 2, found:  4
-trying to Min Find 20, found:  <nil>
+trying to Min Find 30, found:  <nil>
 
 */
