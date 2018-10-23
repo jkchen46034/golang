@@ -21,31 +21,31 @@ type Tree struct {
 
 */
 
-func NewTree(Val int) *Tree {
-	return &Tree{nil, Val, nil}
+func NewTree(val int) *Tree {
+	return &Tree{nil, val, nil}
 }
 
-func (tree *Tree) Insert(Val int) *Tree {
+func (tree *Tree) Insert(val int) *Tree {
 	if tree == nil {
-		return NewTree(Val)
+		return NewTree(val)
 	}
-	if Val > tree.Val {
-		tree.Right = tree.Right.Insert(Val)
-	} else if Val < tree.Val {
-		tree.Left = tree.Left.Insert(Val)
+	if val > tree.Val {
+		tree.Right = tree.Right.Insert(val)
+	} else if val < tree.Val {
+		tree.Left = tree.Left.Insert(val)
 	}
 	return tree
 }
 
-func (tree *Tree) Find(Val int) *Tree {
-	if tree == nil || tree.Val == Val {
+func (tree *Tree) Find(val int) *Tree {
+	if tree == nil || tree.Val == val {
 		return tree
 	}
 
-	if Val > tree.Val {
-		return tree.Right.Find(Val)
+	if val > tree.Val {
+		return tree.Right.Find(val)
 	}
-	return tree.Left.Find(Val)
+	return tree.Left.Find(val)
 }
 
 func (tree *Tree) Inorder() {
@@ -81,12 +81,12 @@ func (t *Tree) visit() {
 }
 
 func main() {
-	Vals := []int{10, 7, 12, 4, 9, 11, 15}
+	vals := []int{10, 7, 12, 4, 9, 11, 15}
 
 	var tree *Tree
 
-	for _, Val := range Vals {
-		tree = tree.Insert(Val)
+	for _, val := range vals {
+		tree = tree.Insert(val)
 	}
 
 	fmt.Println("Breadth First Traversal:")
