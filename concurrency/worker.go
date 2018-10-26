@@ -1,4 +1,4 @@
-// A goroutine with job pool/workers pattern, finding prime numbers
+// A goroutine in job pool/workers pattern, finding prime numbers
 
 package main
 
@@ -22,8 +22,8 @@ type Result struct {
 	prime []int
 }
 
-// take a job from pool, calcaulte prime numbers,
-// put them in to Result
+// Take a job from pool, calcaulte prime numbers,
+// put them in to result pool
 func findPrime(w int, jobPool chan Job, resultPool chan Result) {
 	for job := range jobPool {
 		result := Result{job.JobID, make([]int, 0)}
@@ -44,27 +44,27 @@ func findPrime(w int, jobPool chan Job, resultPool chan Result) {
 }
 
 func main() {
-	// five jobs, two workes, five results
+	// Five jobs, two workers, five results
 	jobPool := make(chan Job, 5)
 	resultPool := make(chan Result, 5)
 
 	jobPool <- Job{0, JobRange{2, 10}}
 	jobPool <- Job{1, JobRange{10, 20}}
 	jobPool <- Job{2, JobRange{20, 30}}
+	jobPool <- Job{3, JobRange{30, 40}}
+	jobPool <- Job{4, JobRange{40, 50}}
+	close(jobPool)
 
 	for i := 0; i < 2; i++ {
 		go findPrime(i, jobPool, resultPool)
 	}
-
-	jobPool <- Job{3, JobRange{30, 40}}
-	jobPool <- Job{4, JobRange{40, 50}}
-	close(jobPool)
 
 	for i := 0; i < 5; i++ {
 		result := <-resultPool
 		fmt.Println(result)
 	}
 }
+
 /*
 $ go run worker.go
 {0 [2 3 5 7]}
