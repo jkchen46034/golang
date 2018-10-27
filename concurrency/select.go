@@ -8,24 +8,27 @@ import (
 	_ "time"
 )
 
-var quit chan int
-
 func multiplex(a chan int, b chan int) chan int {
 	c := make(chan int)
 	go func() {
-		cnt := 0
 		for {
 			select {
-			case val := <-a:
-				c <- val
-			case val := <-b:
-				c <- val
-			case val := <-quit:
-				cnt += val
-				if cnt == 2 {
-					close(c)
-					return
+			case val, ok := <-a:
+				if !ok {
+					a = nil
+				} else {
+					c <- val
 				}
+			case val, ok := <-b:
+				if !ok {
+					b = nil
+				} else {
+					c <- val
+				}
+			}
+			if a == nil && b == nil {
+				close(c)
+				return
 			}
 		}
 	}()
@@ -48,13 +51,12 @@ func findPrime(from int, to int) chan int {
 				c <- i
 			}
 		}
-		quit <- 1
+		close(c)
 	}()
 	return c
 }
 
 func main() {
-	quit = make(chan int)
 	a := findPrime(2, 10)
 	b := findPrime(10, 20)
 	c := multiplex(a, b)
@@ -66,11 +68,11 @@ func main() {
 
 /*
 $ go run select.go
+11
 2
 3
-5
-11
 13
+5
 7
 17
 19
