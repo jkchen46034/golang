@@ -9,11 +9,14 @@ import (
 func performTask(in chan int) chan int {
 	out := make(chan int)
 	go func() {
-		val := <-in
-		// do something ....
-		val = val + 3
-		//...
-		out <- val
+		for val := range in {
+			// do something ....
+			val = val + 3
+			// and, send to next stage
+			out <- val
+		}
+		// If in has been closed, we leave
+		close(out)
 		return
 	}()
 	return out
@@ -29,11 +32,22 @@ func main() {
 		in = out
 	}
 	// now trigger the work
-	begin <- 0
-	fmt.Println(<-out)
+	for i := 0; i < 3; i++ {
+		begin <- i
+		fmt.Println(<-out)
+	}
 }
 
 /*
-$ go run token.go
+
+$ go build sequence.go
+$ time ./sequence
 30000
+30001
+30002
+
+real	0m0.093s
+user	0m0.122s
+sys	0m0.045s
+
 */
