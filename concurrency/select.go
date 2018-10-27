@@ -5,7 +5,6 @@ package main
 import (
 	"fmt"
 	"math"
-	_ "time"
 )
 
 func multiplex(a chan int, b chan int) chan int {
@@ -40,8 +39,12 @@ func findPrime(from int, to int) chan int {
 	c := make(chan int)
 	go func() {
 		for i := from; i < to; i++ {
+			if i < 2 {
+				continue
+			}
+			mid := int(math.Sqrt(float64(i)))
 			isPrime := true
-			for j := 2; j <= int(math.Sqrt(float64(i))); j++ {
+			for j := 2; j <= mid; j++ {
 				if i%j == 0 {
 					isPrime = false
 					break
@@ -57,7 +60,7 @@ func findPrime(from int, to int) chan int {
 }
 
 func main() {
-	a := findPrime(2, 10)
+	a := findPrime(1, 10)
 	b := findPrime(10, 20)
 	c := multiplex(a, b)
 
