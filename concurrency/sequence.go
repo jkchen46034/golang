@@ -1,5 +1,5 @@
-// Implement a token pattern, sequencing a series of tasks
-// task implemented with generation pattern
+// Implement a sequence pattern, sequencing a series of tasks
+// Task implemented with generation pattern
 package main
 
 import (
