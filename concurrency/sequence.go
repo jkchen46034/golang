@@ -24,7 +24,7 @@ func main() {
 	in := begin
 	out := in
 	// build the work chain
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 10000; i++ {
 		out = performTask(in)
 		in = out
 	}
@@ -35,5 +35,5 @@ func main() {
 
 /*
 $ go run token.go
-300
+30000
 */
