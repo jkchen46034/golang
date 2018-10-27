@@ -1,4 +1,4 @@
-// Goroutines with multiplex pattern, finding prime numbers
+// Goroutines with multiplex pattern, written in a merge() function
 
 package main
 
@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-func multiplex(a chan int, b chan int) chan int {
+func merge(a chan int, b chan int) chan int {
 	c := make(chan int)
 	var wg sync.WaitGroup
 
@@ -59,25 +59,25 @@ func findPrime(from int, to int) chan int {
 func main() {
 	a := findPrime(2, 20)
 	b := findPrime(20, 40)
-	c := multiplex(a, b)
 
-	for val := range c {
+	for val := range merge(a, b) {
 		fmt.Println(val)
 	}
 }
 
 /*
-$ go run multiplex.go
-23
-29
+$ go run merge.go
 2
-31
+23
 3
-37
 5
+29
 7
+31
 11
 13
+37
 17
 19
+
 */
