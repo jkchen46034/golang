@@ -1,4 +1,5 @@
-// This function implements a ballclock, brute force
+// Implement a ballclock, brute force
+// http://www.chilton.com/~jimw/ballclk.html
 
 package main
 
@@ -115,7 +116,7 @@ func main() {
 	stack := []*Stack{NewStack(5), NewStack(12), NewStack(12)}
 	numStacks := len(stack)
 
-	numBalls := 30
+	numBalls := 45
 	q := NewQueue(numBalls).Fill()
 
 	var ball int
@@ -143,11 +144,20 @@ func main() {
 
 /*
 
-golang$ go build ballclock.go
-golang$ time ./ballclock
+$ go build ballclock.go
+$ time ./ballclock
 30 balls cycles after  30.00 half days
 
 real  0m0.010s
 user  0m0.004s
 sys   0m0.004s
+
+$ go build ballclock.go
+$ time ./ballclock
+45 balls cycles after 756.00 half days
+
+real	0m0.069s
+user	0m0.060s
+sys	0m0.012s
+
 */
