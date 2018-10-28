@@ -1,4 +1,4 @@
-// prodocuer consumer via semaphore, implemented using channel
+// Producer consumer via semaphore, implemented using buffered channel
 package main
 
 import (
