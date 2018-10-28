@@ -6,20 +6,36 @@ import (
 	"time"
 )
 
-func Adder(a *int, amount int, m chan int) {
-	<-m
+type Mutex struct {
+	m chan int
+}
+
+func NewMutex() *Mutex {
+	return &Mutex{make(chan int)}
+}
+
+func (mutex *Mutex) Signal() {
+	mutex.m <- 1
+}
+
+func (mutex *Mutex) Wait() {
+	<-mutex.m
+}
+
+func Adder(a *int, amount int, mutex *Mutex) {
+	mutex.Wait()
 	*a = *a + amount
-	m <- 1
+	mutex.Signal()
 }
 
 func main() {
-	m := make(chan int)
+	mutex := NewMutex()
 	a := 0
 	for i := 0; i < 1000; i++ {
-		go Adder(&a, 1, m)
-		go Adder(&a, 2, m)
+		go Adder(&a, 1, mutex)
+		go Adder(&a, 2, mutex)
 	}
-	m <- 1
+	mutex.Signal()
 	time.Sleep(10 * time.Millisecond)
 	fmt.Println(a)
 }
