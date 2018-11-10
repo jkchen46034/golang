@@ -1,0 +1,3 @@
+testdb=# \i /home/jk/dev/golang/psql/procedure.sql
+CREATE FUNCTION
+testdb=# select insert_userinfo('jiajiac', 'sales');
