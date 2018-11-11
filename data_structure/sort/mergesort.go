@@ -27,7 +27,7 @@ func combine(a []int, m int) {
 }
 
 func main() {
-	a := []int{15, 2, 7, 12, 28, 3, 9, 4, 8}
+	a := []int{15, 7, 2, 12, 28, 9, 3, 8, 4}
 	fmt.Println(a)
 	mergeSort(a)
 	fmt.Println(a)

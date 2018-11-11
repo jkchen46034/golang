@@ -18,8 +18,14 @@ func selectsort(a []int) {
 }
 
 func main() {
-	a := []int{15, 2, 7, 12, 28, 3, 9, 4, 8}
+	a := []int{15, 7, 2, 12, 28, 9, 3, 8, 4}
 	fmt.Println(a)
 	selectsort(a)
 	fmt.Println(a)
 }
+
+/*
+$ go run selectionsort.go 
+[15 7 2 12 28 9 3 8 4]
+[2 3 4 7 8 9 12 15 28]
+*/

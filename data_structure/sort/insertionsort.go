@@ -17,7 +17,7 @@ func insertionsort(a []int) {
 }
 
 func main() {
-	a := []int{15, 2, 7, 12, 28, 3, 9, 4}
+	a := []int{15, 14, 13, 12, 8, 7, 6, 4}
 	fmt.Println(a)
 	insertionsort(a)
 	fmt.Println(a)
