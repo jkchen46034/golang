@@ -4,14 +4,14 @@ import (
 	"fmt"
 )
 
-func merge(a []int) {
+func mergeSort(a []int) {
 	n := len(a)
 	if n <= 1 {
 		return
 	}
 	m := n / 2
-	merge(a[0:m])
-	merge(a[m:n])
+	mergeSort(a[0:m])
+	mergeSort(a[m:n])
 	combine(a, m)
 }
 
@@ -29,12 +29,12 @@ func combine(a []int, m int) {
 func main() {
 	a := []int{15, 2, 7, 12, 28, 3, 9, 4, 8}
 	fmt.Println(a)
-	merge(a)
+	mergeSort(a)
 	fmt.Println(a)
 }
 
 /*
-$ go run merge.go
+$ go run mergesort.go
 [15 2 7 12 28 3 9 4 8]
 [2 3 4 7 8 9 12 15 28]
 */
