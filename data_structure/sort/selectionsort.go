@@ -25,7 +25,7 @@ func main() {
 }
 
 /*
-$ go run selectionsort.go 
+$ go run selectionsort.go
 [15 7 2 12 28 9 3 8 4]
 [2 3 4 7 8 9 12 15 28]
 */
