@@ -27,8 +27,9 @@ func main() {
 	bubblesort(arr)
 	fmt.Println(arr)
 }
+
 /*
-$ go run bubblesort.go 
+$ go run bubblesort.go
 [15 2 7 12 28 3 9 4]
 [2 3 4 7 9 12 15 28]
 */

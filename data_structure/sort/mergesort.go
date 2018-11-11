@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func mergeSort(a []int) []int{
+func mergeSort(a []int) []int {
 	n := len(a)
 	if n <= 1 {
 		return a
