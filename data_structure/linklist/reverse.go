@@ -1,3 +1,5 @@
+// This file reverses a linked list
+
 package main
 
 import (
