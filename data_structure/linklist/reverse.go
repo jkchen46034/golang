@@ -24,27 +24,21 @@ func generateList(vals []int) *Node {
 		prev = node
 	}
 	return head
-
 }
 
 func push_back(head *Node, vals ...int) *Node {
 	if len(vals) == 0 {
 		return head
 	}
-
 	list := generateList(vals)
-
 	if head == nil {
 		return list
 	}
-
 	lastNode := head
 	for lastNode.Next != nil {
 		lastNode = lastNode.Next
 	}
-
 	lastNode.Next = list
-
 	return head
 }
 
@@ -55,7 +49,6 @@ func reverse(head *Node) *Node {
 	for currentNode := head; currentNode != nil; {
 		nextNode = currentNode.Next
 		currentNode.Next = prevNode
-
 		prevNode = currentNode
 		currentNode = nextNode
 	}
@@ -72,12 +65,9 @@ func print(head *Node) {
 func main() {
 	head := push_back(nil, 1, 2, 3)
 	head = push_back(head, 4, 5)
-
 	print(head)
-
 	head = reverse(head)
 	print(head)
-
 	head = reverse(head)
 	print(head)
 }
