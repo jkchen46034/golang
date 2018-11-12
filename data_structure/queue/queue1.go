@@ -1,4 +1,4 @@
-// This function implments a fixed-size circular queue in golang
+// This function implments a fixed-size circular queue
 
 package main
 

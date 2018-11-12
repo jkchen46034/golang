@@ -1,6 +1,4 @@
-// This function implments an unlimited circular queue in golang
-// The idea is to double the size of memory when the queue is full
-// when push() is called
+// This function implments an unlimited circular queue
 
 package main
 
