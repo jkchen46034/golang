@@ -4,44 +4,33 @@ import (
 	"fmt"
 )
 
-type Stack struct {
-	stack []int
-}
+type Stack []int
 
 func NewStack() *Stack {
-	return &Stack{make([]int, 0)}
+	s := Stack(make([]int, 0))
+	return &s
 }
 
 func (s *Stack) Push(val ...int) {
-	s.stack = append(s.stack, val...)
+	*s = append(*s, val...)
 }
 
 func (s *Stack) Pop() int {
-	length := len(s.stack)
-	val := s.stack[length-1]
-	s.stack = s.stack[0 : length-1]
+	length := len(*s)
+	val := (*s)[length-1]
+	*s = (*s)[0 : length-1]
 	return val
 }
 
 func main() {
 	stack := NewStack()
-
-	stack.Push(1)
-	stack.Push(2, 3)
-	fmt.Println("pushed 1, 2, 3, to stack, ", *stack)
-	// pop
-	fmt.Println("poped from stack, ", stack.Pop())
-	// pop
-	fmt.Println("poped from stack, ", stack.Pop())
-	// the remaing stack
-	fmt.Println("stack:", *stack)
+	stack.Push(1, 2, 3, 4, 5)
+	fmt.Println("pushed 1, 2, 3, 4, 5")
+	fmt.Println("Popped", stack.Pop(), stack.Pop(), stack.Pop(), stack.Pop(), stack.Pop())
 }
 
 /*
 $ go run stack.go
-pushed 1, 2, 3, to stack,  {[1 2 3]}
-poped from stack,  3
-poped from stack,  2
-stack: {[1]}
-
+pushed 1, 2, 3, 4, 5
+Popped 5 4 3 2 1
 */
