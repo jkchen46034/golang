@@ -4,43 +4,32 @@ import (
 	"fmt"
 )
 
-type Queue struct {
-	queue []int
-}
+type Queue []int
 
 func NewQueue() *Queue {
-	return &Queue{make([]int, 0)}
+	q := Queue(make([]int, 0))
+	return &q
 }
 
-func (q *Queue) Push(val int) {
-	q.queue = append(q.queue, val)
+func (q *Queue) Push(val ...int) {
+	*q = append((*q), val...)
 }
 
 func (q *Queue) Pop() int {
-	v := q.queue[0]
-	q.queue = q.queue[1:len(q.queue)]
+	v := (*q)[0]
+	(*q) = (*q)[1:len(*q)]
 	return v
 }
 
 func main() {
 	q := NewQueue()
-	// 3 pushes
-	q.Push(1)
-	q.Push(2)
-	q.Push(3)
-	fmt.Println("push 1, 2, 3, to queue:", *q)
-	// 2 pops
-	fmt.Println("pop from queue, ", q.Pop())
-	fmt.Println("pop from queue, ", q.Pop())
-	fmt.Println("queue: ", *q)
+	q.Push(1, 2, 3, 4, 5)
+	fmt.Println("pushed 1, 2, 3, 4, 5 to queue")
+	fmt.Println("Popped", q.Pop(), q.Pop(), q.Pop(), q.Pop(), q.Pop())
 }
 
 /*
-
 $ go run queue.go
-push 1, 2, 3, to queue: {[1 2 3]}
-pop from queue,  1
-pop from queue,  2
-queue:  {[3]}
-
+pushed 1, 2, 3, 4, 5 to queue
+Popped 1 2 3 4 5
 */
