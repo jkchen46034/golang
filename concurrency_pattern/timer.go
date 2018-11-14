@@ -1,33 +1,26 @@
-// multiplex patten implemented with select
+// timer 
 
 package main
 
 import (
 	"fmt"
 	"math"
+	"time"
 )
 
 func multiplex(a chan int, b chan int) chan int {
 	c := make(chan int)
+	timeout := time.After( 100 * time.Millisecond)
 	go func() {
 		for {
 			select {
-			case val, ok := <-a:
-				if !ok {
-					a = nil
-				} else {
+			case val := <-a:
 					c <- val
-				}
-			case val, ok := <-b:
-				if !ok {
-					b = nil
-				} else {
+			case val := <-b:
 					c <- val
-				}
-			}
-			if a == nil && b == nil {
-				close(c)
-				return
+			case <-timeout:
+				 close(c)
+				 return
 			}
 		}
 	}()
@@ -54,7 +47,6 @@ func findPrime(from int, to int) chan int {
 				c <- i
 			}
 		}
-		close(c)
 	}()
 	return c
 }
@@ -70,7 +62,7 @@ func main() {
 }
 
 /*
-$ go run select.go
+$ go run timer.go
 11
 2
 3
