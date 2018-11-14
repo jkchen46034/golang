@@ -1,4 +1,4 @@
-// A goroutine with generator pattern, finding prime numbers
+// generator pattern, returning a channel from gorountine
 
 package main
 

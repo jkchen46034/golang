@@ -1,5 +1,4 @@
-// Implement a sequence pattern, sequencing a series of tasks
-// Task implemented with generation pattern
+// sequence pattern
 package main
 
 import (
@@ -10,9 +9,7 @@ func performTask(in chan int) chan int {
 	out := make(chan int)
 	go func() {
 		for val := range in {
-			// do something ....
 			val = val + 3
-			// and, send to next stage
 			out <- val
 		}
 		// If in has been closed, we leave

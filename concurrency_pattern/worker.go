@@ -1,4 +1,4 @@
-// A goroutine in job pool/workers pattern, finding prime numbers
+//  workers
 
 package main
 

@@ -1,4 +1,4 @@
-// Goroutines with multiplex pattern, implemented with select statement
+// multiplex patten implemented with select
 
 package main
 
