@@ -1,4 +1,4 @@
-// Multiplex pattern
+// worker via waitgroup and monitoring
 
 package main
 
