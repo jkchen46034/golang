@@ -1,4 +1,4 @@
-// timer 
+// timer
 
 package main
 
@@ -10,17 +10,17 @@ import (
 
 func multiplex(a chan int, b chan int) chan int {
 	c := make(chan int)
-	timeout := time.After( 100 * time.Millisecond)
+	timeout := time.After(100 * time.Millisecond)
 	go func() {
 		for {
 			select {
 			case val := <-a:
-					c <- val
+				c <- val
 			case val := <-b:
-					c <- val
+				c <- val
 			case <-timeout:
-				 close(c)
-				 return
+				close(c)
+				return
 			}
 		}
 	}()
