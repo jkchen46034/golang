@@ -1,4 +1,4 @@
-// Goroutines with multiplex pattern, finding prime numbers
+// Multiplex pattern
 
 package main
 
@@ -8,25 +8,20 @@ import (
 	"sync"
 )
 
-func multiplex(a chan int, b chan int) chan int {
+func multiplex(a []chan int) chan int {
 	c := make(chan int)
 	var wg sync.WaitGroup
 
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		for val := range a {
-			c <- val
-		}
-	}()
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		for val := range b {
-			c <- val
-		}
-	}()
+	for i := 0; i < len(a); i++ {
+		wg.Add(1)
+		ch := a[i]
+		go func() {
+			defer wg.Done()
+			for val := range ch {
+				c <- val
+			}
+		}()
+	}
 
 	go func() {
 		defer close(c)
@@ -41,7 +36,8 @@ func findPrime(from int, to int) chan int {
 	go func() {
 		for i := from; i < to; i++ {
 			isPrime := true
-			for j := 2; j <= int(math.Sqrt(float64(i))); j++ {
+			mid := int(math.Sqrt(float64(i)))
+			for j := 2; j <= mid; j++ {
 				if i%j == 0 {
 					isPrime = false
 					break
@@ -57,9 +53,12 @@ func findPrime(from int, to int) chan int {
 }
 
 func main() {
-	a := findPrime(2, 20)
-	b := findPrime(20, 40)
-	c := multiplex(a, b)
+	a0 := findPrime(2, 10)
+	a1 := findPrime(10, 20)
+	a2 := findPrime(20, 30)
+	a3 := findPrime(30, 40)
+
+	c := multiplex([]chan int{a0, a1, a2, a3})
 
 	for val := range c {
 		fmt.Println(val)
@@ -68,16 +67,16 @@ func main() {
 
 /*
 $ go run multiplex.go
-23
-29
 2
+11
+23
 31
-3
 37
+3
+13
+29
 5
 7
-11
-13
 17
 19
 */
