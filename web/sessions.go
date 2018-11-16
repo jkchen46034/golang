@@ -10,7 +10,7 @@ import (
 
 var (
 	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
-	key = []byte("super-secret-key")
+	key   = []byte("super-secret-key")
 	store = sessions.NewCookieStore(key)
 )
 
@@ -35,6 +35,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 	// Set user as authenticated
 	session.Values["authenticated"] = true
+	ok := session.Values["authenticated"].(bool)
 	session.Save(r, w)
 }
 
@@ -43,6 +44,7 @@ func logout(w http.ResponseWriter, r *http.Request) {
 
 	// Revoke users authentication
 	session.Values["authenticated"] = false
+	ok := session.Values["authenticated"].(bool)
 	session.Save(r, w)
 }
 
@@ -53,4 +55,3 @@ func main() {
 
 	http.ListenAndServe(":8080", nil)
 }
-

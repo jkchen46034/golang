@@ -4,3 +4,6 @@ https://gowebexamples.com/routes-using-gorilla-mux/
 https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
 https://stripe.com/docs/checkout/go#step-3-create-routes
 https://www.restapitutorial.com/httpstatuscodes.html
+https://www.sohamkamani.com/blog/2018/03/25/golang-session-authentication/
+https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/04.2.html
+https://github.com/sohamkamani/go-password-auth-example

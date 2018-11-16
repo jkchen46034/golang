@@ -1,0 +1,50 @@
+### Sign Up request
+POST http://localhost:8000/signup
+
+{
+  "username": "johndoe",
+  "password": "mysecurepassword"
+}
+
+### Signin request with correct password
+
+POST http://localhost:8000/signin
+
+{
+  "username": "johndoe",
+  "password": "mysecurepassword"
+}
+
+### Signin request with incorrect password
+
+POST http://localhost:8000/signin
+
+{
+  "username": "johndoe",
+  "password": "incorrect"
+}
+
+curl --header "Content-Type:application/json" --request POST --data '{"username":"jk", "password":"chen"}' http://localhost:8000/signup
+mydb=# select * from users;
+ username |                           password                           
+----------+--------------------------------------------------------------
+ jk       | $2a$08$lfiudBYkTE7l.uogpDNUaOY.fuTLBg3yyVRK/pJTiRdOM0cz2j1oS
+
+jk@jk-Z270P-D3:~/dev/try/go/golang/web/signinup$ curl --header "Content-Type:application/json" --request POST --data '{"username":"jk", "password":"chen"}' http://localhost:8000/signin
+jk@jk-Z270P-D3:~/dev/try/go/golang/web/signinup$ curl --header "Content-Type:application/json" --request POST --data '{"username":"jk", "password":"chen2"}' http://localhost:8000/signin
+
+2018/11/16 12:38:15 /signin
+matched and signed in
+2018/11/16 12:38:21 /signin
+login failed, password does not match
+2018/11/16 12:38:41 /signup
+&{jk chen}
+password:  $2a$08$Bd6fKV/JEi28LvIy4v1/eOXUW0Z217.Etp45KHQsR7lNRQ2pGo3Ne
+database write error pq: duplicate key value violates unique constraint "users_pkey"
+2018/11/16 12:38:51 /signup
+&{jk chen3}
+password:  $2a$08$yySUN7PhGGFwdwhMWubWYe3.3Zh989cSphjSrMR4kkMXDGV5wKs3i
+database write error pq: duplicate key value violates unique constraint "users_pkey"
+2018/11/16 12:39:05 /signup
+&{jk3 chen3}
+password:  $2a$08$Mgr.yXX2vjPT0kcOAytDz.cdh2Ar1QAYu3kz6hTua77aDIHnPbpmi

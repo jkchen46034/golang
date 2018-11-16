@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"html/template"
 )
 
 type Message struct {
@@ -61,7 +61,7 @@ func main() {
 	fs := http.FileServer(http.Dir("static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-  // template 
+	// template
 	type Todo struct {
 		Title string
 		Done  bool
@@ -72,7 +72,7 @@ func main() {
 		Todos     []Todo
 	}
 
-  tmpl := template.Must(template.ParseFiles("layout.html"))
+	tmpl := template.Must(template.ParseFiles("layout.html"))
 
 	http.HandleFunc("/todo", logging(func(w http.ResponseWriter, r *http.Request) {
 		data := TodoPageData{
@@ -94,7 +94,7 @@ func main() {
 		Message string
 	}
 
-  tmplform := template.Must(template.ParseFiles("forms.html"))
+	tmplform := template.Must(template.ParseFiles("forms.html"))
 
 	http.HandleFunc("/contact", logging(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
