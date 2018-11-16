@@ -1,0 +1,23 @@
+// server
+
+$ ./gosession
+2018/11/16 15:01:13 redis connected
+2018/11/16 15:01:20 /welcome
+2018/11/16 15:01:20 token not found in cache, use is rejected.
+2018/11/16 15:01:37 /welcome
+2018/11/16 15:01:37 not autorized use, rejected
+2018/11/16 15:01:49 /signin
+2018/11/16 15:01:49 c8b69dfe-3547-4a01-998f-184e8f0decfc created
+2018/11/16 15:01:49 token saved to redis
+2018/11/16 15:02:27 /welcome
+2018/11/16 15:02:27 token is good, use of the url is allowed.
+
+// client
+$ curl -s --cookie "session_token=7aec78f3-9aef-4acb-af6c-9a65e2a028bc" http://localhost:8000/welcome
+$ curl -s http://localhost:8000/welcome
+$ curl  --header "Content-Type:application/json" --request POST --data '{"username":"user2", "password":"password2"}' http://localhost:8000/signin
+$ curl -s --cookie "session_token=c8b69dfe-3547-4a01-998f-184e8f0decfc" http://localhost:8000/welcome
+
+// redis
+127.0.0.1:6379> get c8b69dfe-3547-4a01-998f-184e8f0decfc
+"user2"
