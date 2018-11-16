@@ -3,9 +3,9 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
+	"log"
 	"net/http"
 )
 
@@ -14,23 +14,28 @@ type Credentials struct {
 	Password string `json:"password", db:"password"`
 }
 
+func logging(f http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.URL.Path)
+		f(w, r)
+	}
+}
+
 func Signup(w http.ResponseWriter, r *http.Request) {
 	creds := &Credentials{}
 	err := json.NewDecoder(r.Body).Decode(creds)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Println("json decoding failed")
+		log.Println("json decoding failed")
 		return
 	}
-	fmt.Println(creds)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
-
-	fmt.Println("password: ", string(hashedPassword))
 	if _, err = db.Query("insert into users values ($1, $2)", creds.Username, string(hashedPassword)); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Println("database write error", err.Error())
+		log.Println("database write error", err.Error())
 		return
 	}
+	log.Println("successfully signed up", creds.Username, string(hashedPassword))
 	// default status of 200 is sent back
 }
 
@@ -39,18 +44,19 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(creds)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Println("json decode failed")
+		log.Println("json decode failed")
 		return
 	}
 	result := db.QueryRow("select password from users where username=$1", creds.Username)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Println("database query failed")
+		log.Println("database query failed")
 		return
 	}
 	storedCreds := &Credentials{}
 	err = result.Scan(&storedCreds.Password)
 	if err != nil {
+		log.Println("sign in failed, we dont have a record for the account")
 		if err == sql.ErrNoRows {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
@@ -61,10 +67,10 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 	if err = bcrypt.CompareHashAndPassword([]byte(storedCreds.Password), []byte(creds.Password)); err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Println("login failed, password does not match")
+		log.Println("login failed, password does not match")
 		return
 	}
 
 	// The default 200 status is sent
-	fmt.Println("matched and signed in")
+	log.Println("matched and signed in")
 }

@@ -7,3 +7,4 @@ https://www.restapitutorial.com/httpstatuscodes.html
 https://www.sohamkamani.com/blog/2018/03/25/golang-session-authentication/
 https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/04.2.html
 https://github.com/sohamkamani/go-password-auth-example
+https://www.alexedwards.net/blog/practical-persistence-sql
