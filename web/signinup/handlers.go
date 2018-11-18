@@ -27,6 +27,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Println("json decoding failed")
+		fmt.Println(w, "json decoding failed")
 		return
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
