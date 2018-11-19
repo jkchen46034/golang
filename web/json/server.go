@@ -28,10 +28,6 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postJson(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
-		fmt.Fprintf(w, "This route only supports POST")
-		return
-	}
 	if r.Body == nil {
 		http.Error(w, "Please send a request body", 400)
 		return
