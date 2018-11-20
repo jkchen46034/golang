@@ -91,6 +91,6 @@ func main() {
 	http.HandleFunc("/edit/", logging(makeHandler(editHandler)))
 	http.HandleFunc("/save/", logging(makeHandler(saveHandler)))
 
-	log.Println("listening on opost 8080, http://localhost:8080/view/me")
+	log.Println("listening on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
