@@ -205,15 +205,12 @@ func bfs(n *Node) {
 	}
 }
 
-func height(n *Node) int {
-	if n == nil {
+func height(t *Node) int {
+	if t == nil {
 		return 0
 	}
 
-	lheight := height(n.left)
-	rheight := height(n.right)
-
-	return Max(lheight, rheight) + 1
+	return Max(height(t.left), height(t.right)) + 1
 }
 
 // the number of nodes
