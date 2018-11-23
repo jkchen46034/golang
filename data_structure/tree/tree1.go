@@ -44,13 +44,13 @@ func main() {
 
 	var maxD int
 	maxD = 0
-	Diemeter(tree0, &maxD)
+	tree0.Diemeter(&maxD)
 	fmt.Println("Diemter of tree 0:", maxD)
 	maxD = 0
-	Diemeter(tree3, &maxD)
+	tree3.Diemeter(&maxD)
 	fmt.Println("Diemeter of tree 3: ", maxD)
 	maxD = 0
-	Diemeter(tree1, &maxD)
+	tree1.Diemeter(&maxD)
 	fmt.Println("Diemeter of tree 1: ", maxD)
 }
 
@@ -86,12 +86,12 @@ func SameStructure(t0, t1 *Tree) bool {
 	return SameStructure(t0.Left, t1.Left) && SameStructure(t0.Right, t1.Right)
 }
 
-func Diemeter(t *Tree, maxD *int) int {
+func (t *Tree) Diemeter(maxD *int) int {
 	if t == nil {
 		return 0
 	}
-	left := Diemeter(t.Left, maxD)
-	right := Diemeter(t.Right, maxD)
+	left := t.Left.Diemeter(maxD)
+	right := t.Right.Diemeter(maxD)
 	*maxD = Max(left+right+1, *maxD)
 	return Max(left, right) + 1
 }
