@@ -41,37 +41,48 @@ func main() {
            6
     `)
 
-	fmt.Println("Height of tree0: ", Height(tree0))
-	fmt.Println("Left and Right height difference of tree0: ", Subtract(tree0))
-	fmt.Println("BFS: ", Construct(tree0).BFS())
+	fmt.Println("Height of tree0: ", tree0.Height())
+	fmt.Println("String of tree0: ", tree0)
+	fmt.Println("Left and Right height difference of tree0: ", tree0.Subtract())
+	fmt.Println("BFS: ", tree0.Construct().BFS())
 	fmt.Println(tree0.BFS())
-	fmt.Println("Same Structure 0 and copy of 0?  ", SameStructure(tree0, Construct(tree0)))
+	fmt.Println("Same Structure 0 and copy of 0?  ", SameStructure(tree0, tree0.Construct()))
 	fmt.Println("Same Structure 0 and 2?  ", SameStructure(tree0, tree2))
 	fmt.Println("Same Structure 2 and 2?  ", SameStructure(tree2, tree2))
 	fmt.Println("Same Structure 3 and 2?  ", SameStructure(tree3, tree2))
 	fmt.Println("Same Structure 3 and 6?  ", SameStructure(tree3, tree6))
 
+	var maxD int
+	maxD = 0
+	Diemeter(tree0, &maxD)
+	fmt.Println("Diemter of tree 0:", maxD)
+	maxD = 0
+	Diemeter(tree2, &maxD)
+	fmt.Println("Diemeter of tree 2: ", maxD)
+	maxD = 0
+	Diemeter(tree4, &maxD)
+	fmt.Println("Diemeter of tree 4: ", maxD)
 }
 
-func Height(t *Tree) int {
+func (t *Tree) Height() int {
 	if t == nil {
 		return 0
 	}
-	return Max(Height(t.Left), Height(t.Right)) + 1
+	return Max(t.Left.Height(), t.Right.Height()) + 1
 }
 
-func Subtract(t *Tree) int {
-	left := Height(t.Left)
-	right := Height(t.Right)
+func (t *Tree) Subtract() int {
+	left := t.Left.Height()
+	right := t.Right.Height()
 	return Max(left-right, right-left)
 }
 
-func Construct(t *Tree) *Tree {
+func (t *Tree) Construct() *Tree {
 	if t == nil {
 		return nil
 	}
-	left := Construct(t.Left)
-	right := Construct(t.Right)
+	left := t.Left.Construct()
+	right := t.Right.Construct()
 	return &Tree{left, t.Val, right}
 }
 
@@ -83,6 +94,16 @@ func SameStructure(t0, t1 *Tree) bool {
 		return false
 	}
 	return SameStructure(t0.Left, t1.Left) && SameStructure(t0.Right, t1.Right)
+}
+
+func Diemeter(t *Tree, maxD *int) int {
+	if t == nil {
+		return 0
+	}
+	left := Diemeter(t.Left, maxD)
+	right := Diemeter(t.Right, maxD)
+	*maxD = Max(left+right+1, *maxD)
+	return Max(left, right) + 1
 }
 
 func (t *Tree) String() string {
