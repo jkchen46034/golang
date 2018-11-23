@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
 type Tree struct {
@@ -10,58 +11,47 @@ type Tree struct {
 	Right *Tree
 }
 
-/*
-    0
-   / \
-  1   2
- / \   \
-3   4   5
- \      /
- 7     6
-
-*/
-
 func main() {
-	tree3 := &Tree{nil, 3, nil}
-	tree4 := &Tree{nil, 4, nil}
 	tree6 := &Tree{nil, 6, nil}
-	tree8 := &Tree{nil, 8, nil}
 	tree5 := &Tree{tree6, 5, nil}
-	tree2 := &Tree{tree8, 2, tree5}
-	tree1 := &Tree{tree3, 1, tree4}
-	tree0 := &Tree{tree1, 0, tree2}
+	tree4 := &Tree{nil, 4, nil}
+	tree3 := &Tree{nil, 3, tree5}
+	tree2 := &Tree{tree4, 2, nil}
+	tree1 := &Tree{tree2, 1, tree3}
+	tree0 := &Tree{nil, 0, tree1}
 
 	fmt.Println(`
         0
-       / \
-      1   2
-      /\  / \
-     3  4 8  5
-            /
-           6
+         \
+          1
+         / \
+        2   3
+       /     \ 
+      4       5
+             /
+            6	
     `)
 
 	fmt.Println("Height of tree0: ", tree0.Height())
 	fmt.Println("String of tree0: ", tree0)
 	fmt.Println("Left and Right height difference of tree0: ", tree0.Subtract())
-	fmt.Println("BFS: ", tree0.Construct().BFS())
-	fmt.Println(tree0.BFS())
+	fmt.Println("BFS of tree0:", tree0.BFS())
+	fmt.Println("BFS of copy of tree0:", tree0.Construct().BFS())
 	fmt.Println("Same Structure 0 and copy of 0?  ", SameStructure(tree0, tree0.Construct()))
-	fmt.Println("Same Structure 0 and 2?  ", SameStructure(tree0, tree2))
-	fmt.Println("Same Structure 2 and 2?  ", SameStructure(tree2, tree2))
+	fmt.Println("Same Structure 1 and 3?  ", SameStructure(tree1, tree3))
+	fmt.Println("Same Structure 2 and 5?  ", SameStructure(tree2, tree5))
 	fmt.Println("Same Structure 3 and 2?  ", SameStructure(tree3, tree2))
-	fmt.Println("Same Structure 3 and 6?  ", SameStructure(tree3, tree6))
 
 	var maxD int
 	maxD = 0
 	Diemeter(tree0, &maxD)
 	fmt.Println("Diemter of tree 0:", maxD)
 	maxD = 0
-	Diemeter(tree2, &maxD)
-	fmt.Println("Diemeter of tree 2: ", maxD)
+	Diemeter(tree3, &maxD)
+	fmt.Println("Diemeter of tree 3: ", maxD)
 	maxD = 0
-	Diemeter(tree4, &maxD)
-	fmt.Println("Diemeter of tree 4: ", maxD)
+	Diemeter(tree1, &maxD)
+	fmt.Println("Diemeter of tree 1: ", maxD)
 }
 
 func (t *Tree) Height() int {
@@ -110,7 +100,7 @@ func (t *Tree) String() string {
 	list := t.BFS()
 	var s string
 	for _, val := range list {
-		s = s + string(val) + " "
+		s = s + strconv.Itoa(val) + " "
 	}
 	return s
 }
