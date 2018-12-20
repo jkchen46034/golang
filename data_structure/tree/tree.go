@@ -21,32 +21,6 @@ type Node struct {
 
 */
 
-func Equal(a []int, b []int) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i, v := range a {
-		if v != b[i] {
-			return false
-		}
-	}
-	return true
-}
-
-func Max(a int, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func Min(a int, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	node7 := &Node{7, nil, nil}
 	node3 := &Node{3, nil, node7}
@@ -432,6 +406,32 @@ func IsEqual(n *Node, m *Node) bool {
 	}
 
 	return IsEqual(n.right, m.right)
+}
+
+func Equal(a []int, b []int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func Max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func Min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 /*
