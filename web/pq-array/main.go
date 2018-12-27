@@ -1,3 +1,8 @@
+//hstore:
+// http://www.postgresqltutorial.com/postgresql-hstore/
+//array:
+// https://www.opsdash.com/blog/postgres-arrays-golang.html
+
 // testdb=# create table posts ( title text not null primary key, tags text[]);
 // testdb=# insert into posts (title, tags) values('pq-array with golang', '{"postgres", "golang"}');
 
@@ -17,7 +22,7 @@ func main() {
 	//db, err := sql.Open("postgres", "host=172.16.2.100 dbname=test")
 	var err error
 
-	Db, err = sql.Open("postgres", "user=jk password=xxxxxx dbname=testdb")
+	Db, err = sql.Open("postgres", "user=jk password=xxxxxxxx dbname=testdb")
 
 	defer Db.Close()
 
@@ -44,10 +49,12 @@ func main() {
 
 	sel := "SELECT tags FROM posts WHERE title=$1"
 
-	if err := Db.QueryRow(sel, title).Scan(pq.Array(&tags)); err != nil {
+	var tags1 []string
+
+	if err := Db.QueryRow(sel, title).Scan(pq.Array(&tags1)); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(tags)
+	fmt.Println(tags1)
 }
 
 /*
