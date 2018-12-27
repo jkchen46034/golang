@@ -9,15 +9,21 @@ import (
 	"log"
 
 	_ "github.com/lib/pq"
-	_ "github.com/lib/pq/hstore"
+	hstore "github.com/lib/pq/hstore"
 )
+
+type Book struct {
+	Id    int
+	Title string
+	Attr  hstore.Hstore
+}
 
 var Db *sql.DB
 
 func main() {
 	var err error
 
-	Db, err = sql.Open("postgres", "user=jk password=Tom00son dbname=testdb")
+	Db, err = sql.Open("postgres", "user=jk password=xxxxx dbname=testdb")
 
 	defer Db.Close()
 
@@ -31,26 +37,26 @@ func main() {
 	}
 	log.Println("DB ping success!")
 
-	sel := "select attr->'ISBN-13' AS isbn from books"
+	sel := "select id, title,  attr from books"
 
-	var isbn []string
+	var books []Book
 	rows, err := Db.Query(sel)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for rows.Next() {
-		var isbnstr string
-		if err := rows.Scan(&isbnstr); err != nil {
+		var book Book
+		if err := rows.Scan(&book.Id, &book.Title, &book.Attr); err != nil {
 			log.Fatal(err)
 		}
-		isbn = append(isbn, isbnstr)
+		books = append(books, book)
 	}
-	log.Println(isbn)
+	log.Println(books)
 }
 
 /*
-2018/12/27 15:22:25 DB ping success!
-2018/12/27 15:22:25 [978-1449370000 978-1449370001]
+2018/12/27 16:09:21 DB ping success!
+2018/12/27 16:09:21 [{1 PostgreSQL Tutorial {map[publisher:{postgresqltutorial.com true} freeshipping:{yes true} weight:{11.2 ounces true} ISBN-13:{978-1449370000 true} language:{English true} paperback:{243 true}]}} {2 PostgreSQL Cheat Sheet {map[language:{English true} paperback:{5 true} publisher:{postgresqltutorial.com true} weight:{1 ounces true} ISBN-13:{978-1449370001 true}]}}]
 */
 
 /*
