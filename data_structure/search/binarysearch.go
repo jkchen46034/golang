@@ -5,7 +5,7 @@ import (
 )
 
 func binarySearch(a []int, v int, left, right int) bool {
-	for left < right {
+	for left <= right {
 		mid := (left + right) / 2
 		if v == a[mid] {
 			return true
@@ -29,7 +29,7 @@ func main() {
 }
 
 /*
-$ go run binarysearch.go 
+$ go run binarysearch.go
 [2 3 4 7 9 12 15 28]
 Trying to find 4 true
 Trying to find 9 true

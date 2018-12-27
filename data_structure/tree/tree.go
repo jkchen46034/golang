@@ -21,32 +21,6 @@ type Node struct {
 
 */
 
-func Equal(a []int, b []int) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i, v := range a {
-		if v != b[i] {
-			return false
-		}
-	}
-	return true
-}
-
-func Max(a int, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func Min(a int, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	node7 := &Node{7, nil, nil}
 	node3 := &Node{3, nil, node7}
@@ -205,15 +179,12 @@ func bfs(n *Node) {
 	}
 }
 
-func height(n *Node) int {
-	if n == nil {
+func height(t *Node) int {
+	if t == nil {
 		return 0
 	}
 
-	lheight := height(n.left)
-	rheight := height(n.right)
-
-	return Max(lheight, rheight) + 1
+	return Max(height(t.left), height(t.right)) + 1
 }
 
 // the number of nodes
@@ -435,6 +406,32 @@ func IsEqual(n *Node, m *Node) bool {
 	}
 
 	return IsEqual(n.right, m.right)
+}
+
+func Equal(a []int, b []int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func Max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func Min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 /*
