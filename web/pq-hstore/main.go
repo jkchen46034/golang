@@ -5,7 +5,7 @@ package main
 
 import (
 	"database/sql"
-	_ "fmt"
+	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
@@ -23,7 +23,7 @@ var Db *sql.DB
 func main() {
 	var err error
 
-	Db, err = sql.Open("postgres", "user=jk password=xxxxx dbname=testdb")
+	Db, err = sql.Open("postgres", "user=jk password=xxxx dbname=testdb")
 
 	defer Db.Close()
 
@@ -40,10 +40,15 @@ func main() {
 	sel := "select id, title,  attr from books"
 
 	var books []Book
+
 	rows, err := Db.Query(sel)
+
+	defer rows.Close()
+
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	for rows.Next() {
 		var book Book
 		if err := rows.Scan(&book.Id, &book.Title, &book.Attr); err != nil {
@@ -51,7 +56,19 @@ func main() {
 		}
 		books = append(books, book)
 	}
-	log.Println(books)
+
+	for i := 0; i < len(books); i++ {
+		log.Println(books[i].Attr)
+	}
+
+	ins := "insert into books(title,  attr) values ($1,$2)"
+
+	title := "Job Queues in Go"
+	_, err = Db.Exec(ins, title, hstore.Hstore(books[0].Attr))
+
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 /*
@@ -70,21 +87,24 @@ INSERT INTO books (title, attr)
 VALUES
  (
  'PostgreSQL Tutorial',
- '"paperback" => "243",
-    "publisher" => "postgresqltutorial.com",
-    "language"  => "English",
-    "ISBN-13"   => "978-1449370000",
- "weight"    => "11.2 ounces"'
+ '
+  "paperback" => "243",
+  "publisher" => "postgresqltutorial.com",
+  "language"  => "English",
+  "ISBN-13"   => "978-1449370000",
+  "weight"    => "11.2 ounces"
+ '
  );
 INSERT INTO books (title, attr)
 VALUES
  (
  'PostgreSQL Cheat Sheet',
  '
-"paperback" => "5",
-"publisher" => "postgresqltutorial.com",
-"language"  => "English",
-"ISBN-13"   => "978-1449370001",
-"weight"    => "1 ounces"'
+	"paperback" => "5",
+	"publisher" => "postgresqltutorial.com",
+	"language"  => "English",
+	"ISBN-13"   => "978-1449370001",
+	"weight"    => "1 ounces"
+ '
  );
 */
