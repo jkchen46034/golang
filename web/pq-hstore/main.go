@@ -23,7 +23,7 @@ var Db *sql.DB
 func main() {
 	var err error
 
-	Db, err = sql.Open("postgres", "user=jk password=xxxx dbname=testdb")
+	Db, err = sql.Open("postgres", "user=jk password=xxxxx dbname=testdb")
 
 	defer Db.Close()
 
@@ -64,7 +64,7 @@ func main() {
 	ins := "insert into books(title,  attr) values ($1,$2)"
 
 	title := "Job Queues in Go"
-	_, err = Db.Exec(ins, title, hstore.Hstore(books[0].Attr))
+	_, err = Db.Exec(ins, title, books[0].Attr)
 
 	if err != nil {
 		fmt.Println(err)
