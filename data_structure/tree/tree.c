@@ -10,23 +10,10 @@ typedef struct Node_T {
 	Node_T *right;
 } Node;
 
-/*
-    0
-   / \
-  1   2
- / \ / \
-3  4 8  5
-/\
-7 6
-
-*/
-
-
-// 012348576
 void bfs(Node *node) {
 	Node *q[100];
 	int qhead = 0;
-  int	qend = 0;
+  	int	qend = 0;
 
 	if (node != NULL) {
 		q[qend++] = node;
@@ -44,7 +31,6 @@ void bfs(Node *node) {
 	}
 }
 
-// 4
 int height(Node* node) {
 	if (node == NULL) {
 		return 0;
@@ -57,7 +43,6 @@ int height(Node* node) {
 		return right+1;
 }
 
-// 763418520
 void postfix(Node* node) {
 	if (node==NULL) {
 		return;
@@ -67,7 +52,6 @@ void postfix(Node* node) {
 	std::cout << node->val;
 }
 
-// 013764285
 void prefix(Node* node) {
 	if (node == NULL) {
 		return;
@@ -77,7 +61,6 @@ void prefix(Node* node) {
 	prefix(node->right);
 }
 
-// 736140825 
 void infix(Node *node) {
 	if (node==0) {
 		return ;
@@ -87,21 +70,32 @@ void infix(Node *node) {
 	infix(node->right);
 }
 
-int main() {
-	Node *node7 = new Node{NULL, 7, NULL};
-  Node *node4 = new Node{NULL, 4, NULL};
-  Node *node6 = new Node{NULL, 6, NULL};
-  Node *node8 = new Node{NULL, 8, NULL};
-  Node *node5 = new Node{NULL ,5, NULL};
-  Node *node3 = new Node{node7,3, node6};
-  Node *node2 = new Node{node8,2, node5};
-  Node *node1 = new Node{node3,1, node4};
-  Node *node0 = new Node{node1,0, node2};
+Node* insert(Node* node, int val) { 
+	if (node == 0) {
+		return new Node{0, val, 0};
+	}
+	if (val < node->val) 
+		node->left = insert(node->left, val);
+	else 
+		node->right = insert(node->right, val);
+}
 
-	std::cout << "infix: ";  infix(node0); std::cout << std::endl;
-	std::cout << "prefix: "; prefix(node0); std::cout << std::endl;
-	std::cout << "postfix: "; postfix(node0); std::cout << std::endl;
-	std::cout << "height: "<< height(node0) << std::endl;
-	std::cout << "bfs: "; bfs(node0); std::cout << std::endl;
+Node* buildBST(int* a, int n) {
+	Node *node = 0;
+	for (int i=0; i<n; i++) {
+		node = insert(node, a[i]);
+	}
+	return node;
+}
+
+int main() {
+	int a[] = {7,4,6,8,5,3,2,1,0};
+	int n = sizeof(a)/sizeof(int);
+	Node* node = buildBST(a, n);
+	std::cout << "bfs of a bst: ";  bfs(node); std::cout << std::endl; // 748362510
+	std::cout << "infix: ";  infix(node); std::cout << std::endl;  // 012345678 
+	std::cout << "prefix: "; prefix(node); std::cout << std::endl; // 743210658
+	std::cout << "postfix: "; postfix(node); std::cout << std::endl; // 012356487
+	std::cout << "height: "<< height(node) << std::endl;  // 6
 	return 1;
 }
