@@ -9,8 +9,8 @@ typedef struct Node_T {
 	Node_T *right;
 } Node;
 
-void bfs(Node *node) {
-	Node *q[100];
+void bfs(Node* node) {
+	Node* q[100];
 	int qhead = 0;
   	int	qend = 0;
 
@@ -20,7 +20,7 @@ void bfs(Node *node) {
 	}
 	while (qhead != qend) {
 		// pop one out
-		Node *n = q[qhead++];  
+		Node* n = q[qhead++];  
 		std::cout << n->val; 
 		// push children in
 		if (n->left) 
@@ -60,7 +60,7 @@ void prefix(Node* node) {
 	prefix(node->right);
 }
 
-void infix(Node *node) {
+void infix(Node* node) {
 	if (node==0) {
 		return ;
 	}
