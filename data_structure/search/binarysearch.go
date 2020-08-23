@@ -9,8 +9,8 @@ func binarySearch(a []int, v int, left, right int) bool {
 		mid := (left + right) / 2
 		if v == a[mid] {
 			return true
-		} else if v <= a[mid] {
-			right = mid
+		} else if v < a[mid] {
+			right = mid - 1
 		} else {
 			left = mid + 1
 		}
@@ -21,11 +21,12 @@ func binarySearch(a []int, v int, left, right int) bool {
 func main() {
 	a := []int{2, 3, 4, 7, 9, 12, 15, 28}
 	fmt.Println(a)
-	fmt.Println("Trying to find 4", binarySearch(a, 4, 0, len(a)))
-	fmt.Println("Trying to find 9", binarySearch(a, 9, 0, len(a)))
-	fmt.Println("Trying to find 28", binarySearch(a, 28, 0, len(a)))
-	fmt.Println("Trying to find 8", binarySearch(a, 8, 0, len(a)))
-	fmt.Println("Trying to find 17", binarySearch(a, 17, 0, len(a)))
+	fmt.Println("Trying to find 4", binarySearch(a, 4, 0, len(a) - 1))
+	fmt.Println("Trying to find 15", binarySearch(a, 15, 0, len(a) - 1))
+	fmt.Println("Trying to find 28", binarySearch(a, 28, 0, len(a) - 1))
+	fmt.Println("Trying to find 2", binarySearch(a, 2, 0, len(a) - 1))
+	fmt.Println("Trying to find 8", binarySearch(a, 8, 0, len(a) - 1))
+	fmt.Println("Trying to find 30", binarySearch(a, 30, 0, len(a) - 1))
 }
 
 /*
