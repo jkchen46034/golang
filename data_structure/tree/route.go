@@ -33,6 +33,8 @@ func main() {
 
 	node0.Route(4, 7)
 	node0.Route(7, 8)
+	node0.Route(2, 8)
+	node0.Route(0, 3)
 }
 
 func (n *Node) Route(s int, e int) bool {
@@ -83,7 +85,7 @@ func Reverse(q *[]int) {
 
 func MakeQ(q1 []int, q2 []int) (q []int) {
 	i := 0
-	for q1[i] == q2[i] {
+	for i < len(q1) && i < len(q2) && q1[i] == q2[i] {
 		i = i + 1
 	}
 	i = i - 1

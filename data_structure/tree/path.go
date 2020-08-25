@@ -31,7 +31,7 @@ func main() {
     6 7    
        `)
 
-	node0.Find(4)
+	node0.Find(5)
 	node0.Find(7)
 }
 
