@@ -32,6 +32,7 @@ func main() {
        `)
 
 	node0.Route(4, 7)
+	node0.Route(7, 8)
 }
 
 func (n *Node) Route(s int, e int) bool {
@@ -43,6 +44,8 @@ func (n *Node) Route(s int, e int) bool {
 	n.Find(e, &q2)
 	Reverse(&q2)
 	fmt.Println(q2)
+	q := MakeQ(q1, q2)
+	fmt.Println("The route from ", s, " to ", e, " is ", q)
 	return true
 }
 
@@ -76,4 +79,21 @@ func Reverse(q *[]int) {
 	for i := 0; i < length/2; i++ {
 		(*q)[i], (*q)[length-1-i] = (*q)[length-1-i], (*q)[i]
 	}
+}
+
+func MakeQ(q1 []int, q2 []int) (q []int) {
+	i := 0
+	for q1[i] == q2[i] {
+		i = i + 1
+	}
+	i = i - 1
+	if i < 0 {
+		return
+	}
+
+	q1r := q1[i:len(q1)]
+	q2r := q2[i+1 : len(q2)]
+	Reverse(&q1r)
+	q = append(q1r, q2r...)
+	return q
 }
