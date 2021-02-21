@@ -37,7 +37,7 @@ func (t *Node) DFS() {
 	if t == nil {
 		return
 	}
-	fmt.Println(t.val)
 	t.left.DFS()
+	fmt.Println(t.val)
 	t.right.DFS()
 }
